@@ -1,0 +1,25 @@
+{
+  "name": "toolbelt-for-agents",
+  "owner": {
+    "name": "Arseny Pavlenko",
+    "url": "https://github.com/h0x91b"
+  },
+  "metadata": {
+    "description": "Cross-harness plugins and skills for coding agents. One source of truth per plugin, generated for every harness."
+  },
+  "plugins": [
+    {
+      "name": "low-battery",
+      "description": "Write every answer for a reader with a nearly-empty attention budget: header block first, decision at the bottom, tables over prose, every term glossed, certainty as a traffic light, nine hard templates picked one per turn.",
+      "source": "./plugins/low-battery",
+      "category": "productivity",
+      "tags": [
+        "output-style",
+        "writing",
+        "reports",
+        "readability",
+        "attention"
+      ]
+    }
+  ]
+}

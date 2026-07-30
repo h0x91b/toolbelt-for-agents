@@ -1,0 +1,53 @@
+name: generated files match the source
+
+# Every harness copy in this repo is rendered from src/<plugin>/ by scripts/build.mjs.
+# Hand-editing a generated file is the drift this repo exists to kill, so fail the PR.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Fail if any generated file is stale
+        run: node scripts/build.mjs --check
+
+      - name: Manifests and frontmatter parse
+        run: |
+          python3 - <<'PY'
+          import json, glob, tomllib
+          for p in ["plugin.json", "gemini-extension.json",
+                    ".claude-plugin/marketplace.json", ".agents/plugins/marketplace.json"] \
+                   + glob.glob("plugins/*/.claude-plugin/plugin.json") \
+                   + glob.glob("plugins/*/.codex-plugin/plugin.json"):
+              json.load(open(p)); print("json ok", p)
+          for p in glob.glob("plugins/*/skills/*/agents/*.toml"):
+              tomllib.load(open(p, "rb")); print("toml ok", p)
+          PY
+
+      - name: Every bundled file the skill points at exists
+        run: |
+          python3 - <<'PY'
+          import re, os, glob, sys
+          bad = []
+          for skill in glob.glob("plugins/*/skills/*/SKILL.md") + glob.glob(".agents/skills/*/SKILL.md"):
+              root = os.path.dirname(skill)
+              body = open(skill).read()
+              for rel in sorted(set(re.findall(r"`((?:templates|reference)/[A-Za-z0-9_-]+\.md)`", body))):
+                  if not os.path.exists(os.path.join(root, rel)):
+                      bad.append(f"{skill} points at missing {rel}")
+                  else:
+                      print("ok", skill, "->", rel)
+          if bad:
+              print("::error::" + "; ".join(bad)); sys.exit(1)
+          PY
+
+      - name: Hook script is POSIX sh clean
+        run: |
+          for f in plugins/*/hooks/*.sh; do sh -n "$f" && echo "sh -n ok $f"; done

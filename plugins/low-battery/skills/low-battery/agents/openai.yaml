@@ -1,0 +1,10 @@
+# GENERATED from src/low-battery/RULES.md by scripts/build.mjs — do not edit by hand.
+# Edit the source, then run: node scripts/build.mjs   (target: Codex per-skill interface)
+
+interface:
+  display_name: "Low Battery"
+  short_description: "Answers built for 30 seconds of attention"
+  default_prompt: "Use low-battery for this answer."
+
+policy:
+  allow_implicit_invocation: true

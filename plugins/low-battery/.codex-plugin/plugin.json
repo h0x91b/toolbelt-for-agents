@@ -1,0 +1,37 @@
+{
+  "name": "low-battery",
+  "version": "1.0.0",
+  "description": "Write every answer for a reader with a nearly-empty attention budget: header block first, decision at the bottom, tables over prose, every term glossed, certainty as a traffic light, nine hard templates picked one per turn.",
+  "author": {
+    "name": "Arseny Pavlenko",
+    "url": "https://github.com/h0x91b"
+  },
+  "homepage": "https://github.com/h0x91b/toolbelt-for-agents",
+  "repository": "https://github.com/h0x91b/toolbelt-for-agents",
+  "license": "Apache-2.0",
+  "keywords": [
+    "low-battery",
+    "output-style",
+    "readability",
+    "reports",
+    "skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Low Battery",
+    "shortDescription": "Answers built for 30 seconds of attention",
+    "longDescription": "Shape every response for an expert reader who is out of context and has 30 to 60 seconds before deciding whether to engage. Mandatory header block naming the template, decision at the bottom, tables instead of prose, plain words with the term in parentheses, percentages marked and paired with absolutes, certainty shown as a traffic light, and nine hard answer templates with exactly one picked per turn. Nothing is ever deleted to make an answer shorter — only repacked.",
+    "developerName": "Arseny Pavlenko",
+    "category": "Productivity",
+    "capabilities": [
+      "Instructions"
+    ],
+    "websiteURL": "https://github.com/h0x91b/toolbelt-for-agents",
+    "defaultPrompt": [
+      "Use low-battery for this answer.",
+      "Rewrite this answer under the low-battery rules.",
+      "Give me the low-battery version of this report."
+    ],
+    "brandColor": "#F59E0B"
+  }
+}
