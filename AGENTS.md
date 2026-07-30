@@ -45,7 +45,13 @@ carries `<!-- @name -->` markers. There are two kinds.
 |---|---|
 | `<!-- @title -->` | the H1, per target |
 | `<!-- @which-copy -->` | `fragments/which-copy.<kind>.md` |
-| `<!-- @templates -->` | **skill:** the lazy-load map from `fragments/templates-lazy.md`, with `T1` inlined. **Everything else:** all nine template bodies concatenated |
+| `<!-- @templates -->` | **skill:** the read-the-file prose from `fragments/templates-lazy.md`, with `T1` inlined. **Everything else:** all ten template bodies concatenated |
+
+The skill gets one more pass on top, `mergePickTable()`: it widens the "How to pick" table with `Sections` and
+`Read` columns instead of repeating all ten template names in a second table underneath — that duplication cost
+13 lines of a file that has a ~500-line ceiling. Single-file copies keep the narrow table; they have no bundled
+files to point at. It throws if the table header or any `` | `T<n>` | `` row stops matching, so a reworded table
+fails the build instead of silently dropping the pointers.
 
 **Lazy blocks** — everything else, resolved purely by convention, no config to update:
 
@@ -97,7 +103,7 @@ one exception, because it is a same-directory link to a file every harness reads
 ```
 src/<new-id>/RULES.md                      must carry the three structural markers
 src/<new-id>/meta.json                     copy low-battery's, change every field
-src/<new-id>/templates/T1.md … T9.md       each starts with "## T<n> · <Name>"
+src/<new-id>/templates/T1.md … T10.md      each starts with "## T<n> · <Name>"
 src/<new-id>/reference/*.md                optional
 src/<new-id>/fragments/templates-lazy.md
 src/<new-id>/fragments/pointer-*.md        one per lazy block
@@ -111,7 +117,7 @@ Add `"<new-id>"` to `plugins` in `src/repo.json`, run the build. It creates `plu
 the plugin to both marketplace files. Then add a row to `README.md` and a `<details>` block to
 `INSTALL.md`.
 
-`build.mjs` expects exactly nine templates named `T1`–`T9`. A different count needs `TEMPLATE_IDS`
+`build.mjs` expects exactly ten templates named `T1`–`T10`. A different count needs `TEMPLATE_IDS`
 changed, or the `@templates` marker left out and the templates written inline in `RULES.md`.
 
 ## Verify before you claim it works

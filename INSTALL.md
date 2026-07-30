@@ -16,8 +16,8 @@ differently on purpose:
 
 | Container | Shape | Why |
 |---|---|---|
-| The **skill** | A directory: `SKILL.md` + `templates/T1.md` … `T9.md` | A skill can read bundled files on demand, so it carries the always-on rules and pulls in only the one answer template it needs |
-| The **output style** and every **context file** (`plugins/low-battery/AGENTS.md`, `.rules`, `.mdc`, Copilot) | A single self-contained file, all nine templates written out | These are injected wholesale into a system prompt or an always-on context. There is no path to resolve and nothing to fetch |
+| The **skill** | A directory: `SKILL.md` + `templates/T1.md` … `T10.md` | A skill can read bundled files on demand, so it carries the always-on rules and pulls in only the one answer template it needs |
+| The **output style** and every **context file** (`plugins/low-battery/AGENTS.md`, `.rules`, `.mdc`, Copilot) | A single self-contained file, all ten templates written out | These are injected wholesale into a system prompt or an always-on context. There is no path to resolve and nothing to fetch |
 
 So whenever you place the skill by hand, copy the **whole folder** (`cp -R`), never just `SKILL.md`.
 Every command below already does. Anything that installs a single file — the plugin's `AGENTS.md`, `.rules`, the Cursor
@@ -337,7 +337,7 @@ The Skills manager's **Create skill from URL** also works, but it imports a **si
 https://github.com/h0x91b/toolbelt-for-agents/blob/main/plugins/low-battery/skills/low-battery/SKILL.md
 ```
 
-⚠️ That route gives you `SKILL.md` without its `templates/` directory, and the nine answer templates live
+⚠️ That route gives you `SKILL.md` without its `templates/` directory, and the ten answer templates live
 in there. The skill would pick a template and then find nothing to read. Prefer the `cp -R` above; if you
 must use the URL, copy `templates/` in afterwards.
 

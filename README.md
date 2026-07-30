@@ -137,7 +137,7 @@ of context. The substance stays; the wording gets fixed.
 | **No technobabble** | If a sentence needs a second read, it's a bug. Rewritten, not annotated |
 | **Size matches the ask** | A yes/no question gets two lines. Small answers don't get bureaucratised into fake reports |
 
-### Nine answer shapes, one picked per turn
+### Ten answer shapes, one picked per turn
 
 The model names the shape it chose on the first line, so you can see at a glance whether it understood
 what kind of answer you wanted.
@@ -148,7 +148,7 @@ what kind of answer you wanted.
 | `T2` | Something got changed | `T7` | Anything resting on measurements |
 | `T3` | Reviewing a PR, SQL, a doc | `T8` | It's broken right now, or diagnosing why |
 | `T4` | Choosing between options | `T9` | You didn't get the last answer, again but properly |
-| `T5` | Work that hasn't started yet | | |
+| `T5` | Work that hasn't started yet | `T10` | You state a belief and ask if it's right |
 
 > ⚠️ **The `Template:` line is temporary — treat it as beta.** It exists so I can see which shape the
 > model picked while I'm still tuning the rules, and go edit that exact template. It will probably be
@@ -158,8 +158,8 @@ what kind of answer you wanted.
 Before sending, the model walks a 23-item checklist in its own thinking — did it pick the right shape,
 is every fact still there, is anything left unglossed. Most of the enforcement lives there.
 
-In the **skill**, the nine templates and the number-formatting rules are separate files it reads only when
-they apply, so a turn carries one shape and not nine. In the **output style** everything is inlined,
+In the **skill**, the ten templates and the number-formatting rules are separate files it reads only when
+they apply, so a turn carries one shape and not ten. In the **output style** everything is inlined,
 because a system prompt has nothing to read from. Same rules either way — [AGENTS.md](AGENTS.md) explains
 why the two are shaped differently.
 
@@ -196,7 +196,7 @@ does. There's no harness where prompt rules are binding.
 ## The rest of the repo
 
 This is a marketplace that happens to hold one plugin today. Everything the agents read is generated
-from `src/low-battery/` — the always-on rules, the nine templates, and the conditional blocks — so no copy
+from `src/low-battery/` — the always-on rules, the ten templates, and the conditional blocks — so no copy
 can drift from another.
 
 Want to change the rules, or add a plugin of your own? **[AGENTS.md](AGENTS.md)** is the working guide, and

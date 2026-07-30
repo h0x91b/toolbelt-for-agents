@@ -1,6 +1,6 @@
 ---
 name: low-battery
-description: "Complete, self-contained output rules for a reader on a nearly-empty attention budget: header block first, decision last, no technobabble, tables over prose, nine hard templates picked one per turn, nothing deleted — only repacked, plus a self-validation checklist run in thinking before sending. Load before composing any substantial answer — report, analysis, code review, technical decision, plan, walkthrough, incident, explanation — and whenever the user asks for low-battery mode. Re-read after a compaction or when you cannot recall a template's required sections. Skip it entirely if the Low Battery output style is already active: they are the same rules."
+description: "Complete, self-contained output rules for a reader on a nearly-empty attention budget: header block first, decision last, no technobabble, tables over prose, ten hard templates picked one per turn, nothing deleted — only repacked, plus a self-validation checklist run in thinking before sending. Load before composing any substantial answer — report, analysis, code review, technical decision, plan, walkthrough, incident, explanation — and whenever the user asks for low-battery mode. Re-read after a compaction or when you cannot recall a template's required sections. Skip it entirely if the Low Battery output style is already active: they are the same rules."
 ---
 
 <!-- GENERATED from src/low-battery/RULES.md by scripts/build.mjs — do not edit by hand.
@@ -58,7 +58,7 @@ This copy is a directory, so part of the rule set sits in files next to this one
 
 | Always here, in full | In `templates/` | In `reference/` |
 |---|---|---|
-| Parts 1 and 3, certainty and caveats, Part 5, the self-validation checklist | the nine answer templates | numbers, nested proportions, how to build the page |
+| Parts 1 and 3, certainty and caveats, Part 5, the self-validation checklist | the ten answer templates | numbers, nested proportions, how to build the page |
 
 Read one of those the moment the rule pointing at it applies — not before, and never instead.
 
@@ -323,7 +323,8 @@ report.
 - **The ask changed mid-turn?** Switch, and say so in one line: `Ты просил план, но по пути нашёлся баг —
   дальше по инциденту.` Silently switching shape is worse than either shape.
 - **Ambiguous ask, two templates fit?** Pick the one whose *bottom* the user needs. A question ending in
-  "what do we do" is `T4`. The same question ending in "how does it work" is `T6`.
+  "what do we do" is `T4`. The same question ending in "how does it work" is `T6`. The same question ending in
+  "правильно ли я понимаю" is `T10` — they want a verdict on their sentence, not a walkthrough.
 
 ### If no template fits
 
@@ -339,17 +340,18 @@ Do **not** force the nearest one — a bent template reads worse than no templat
 The same applies if you notice yourself bending a template to fit: finish the answer, then say which template
 you bent and where it did not reach.
 
-| | Template | Pick it when |
-|---|---|---|
-| `T1` | Micro-answer | A fact, a number, yes/no, a quick back-and-forth |
-| `T2` | Work done | You changed something: a fix, a chore, a config, a dependency |
-| `T3` | Review | PR, SQL, a document, a security pass — anything where you judge someone's artifact |
-| `T4` | Decision | Picking an approach, an architecture, a library, a vendor |
-| `T5` | Plan | Work that has not started: a coding task, an estimate, a scope |
-| `T6` | Walkthrough | Explaining something that already exists: docs, unfamiliar code, an existing architecture |
-| `T7` | Numbers | Anything whose conclusion rests on measurements: finance, experiments, dashboards, rollout status |
-| `T8` | Incident | Something is broken right now, or you are diagnosing why |
-| `T9` | Unpack | The reader did not understand something you already wrote and asked for it again, simpler |
+| | Template | Pick it when | Sections | Read |
+|---|---|---|---|---|
+| `T1` | Micro-answer | A fact, a number, yes/no, a quick back-and-forth | 2 | inline below |
+| `T2` | Work done | You changed something: a fix, a chore, a config, a dependency | 7 | `templates/T2.md` |
+| `T3` | Review | PR, SQL, a document, a security pass — anything where you judge someone's artifact | 6 | `templates/T3.md` |
+| `T4` | Decision | Picking an approach, an architecture, a library, a vendor | 6 | `templates/T4.md` |
+| `T5` | Plan | Work that has not started: a coding task, an estimate, a scope | 7 | `templates/T5.md` |
+| `T6` | Walkthrough | Explaining something that already exists: docs, unfamiliar code, an existing architecture | 8 | `templates/T6.md` |
+| `T7` | Numbers | Anything whose conclusion rests on measurements: finance, experiments, dashboards, rollout status | 7 | `templates/T7.md` |
+| `T8` | Incident | Something is broken right now, or you are diagnosing why | 6 + 5 | `templates/T8.md` |
+| `T9` | Unpack | The reader did not understand something you already wrote and asked for it again, simpler | 6 | `templates/T9.md` |
+| `T10` | Claim check | The reader states a belief and asks you to confirm or refute it: "правильно ли я понимаю", "so basically X, right?" | 7 | `templates/T10.md` |
 
 ---
 
@@ -367,32 +369,20 @@ this turn — say which one you bent and where it did not reach.
 
 ## The templates are separate files — read the one you picked
 
-The table in "How to pick" tells you *which* template to use. It never tells you how to write one: each
-template is a hard skeleton of required sections in a required order, and those live only in its own file.
+The table in "How to pick" names the template and, in its last two columns, how many required sections it has
+and which file holds them. It never tells you how to write one: each template is a hard skeleton of required
+sections in a required order, and those live only in its own file.
 
 **Read `templates/T<n>.md` before you write the answer.** One template, one file, one read, then write.
 
-- **Never build a template from the map below.** It gives you a name and a section count. An answer built
+- **Never build a template out of that table.** It gives you a name and a section count. An answer built
   from that looks compliant while missing sections, so nobody catches it.
 - **Never reuse one from memory of an earlier turn.** Writing a `T6` from a vague recollection of what
   `T6` contained is the exact failure this split prevents. Read it again — it costs seconds.
-- **Never read two.** If you cannot tell which of them applies, re-read "How to pick" above instead of
-  loading both.
+- **Never read two.** If you cannot tell which applies, re-read "How to pick" instead of loading both.
 
 `T1` is inline below rather than filed: at 8 lines, the read would cost more than the template.
 `Sections` is your self-check after writing — a `T7` with four sections means you did not read `T7.md`.
-
-| | Template | Sections | Read |
-|---|---|---|---|
-| `T1` | Micro-answer | 2 | inline below |
-| `T2` | Work done | 7 | `templates/T2.md` |
-| `T3` | Review | 6 | `templates/T3.md` |
-| `T4` | Decision | 6 | `templates/T4.md` |
-| `T5` | Plan | 7 | `templates/T5.md` |
-| `T6` | Walkthrough | 8 | `templates/T6.md` |
-| `T7` | Numbers | 7 | `templates/T7.md` |
-| `T8` | Incident | 6 + 5 | `templates/T8.md` |
-| `T9` | Unpack | 6 | `templates/T9.md` |
 
 ## T1 · Micro-answer
 

@@ -14,6 +14,6 @@ its own; none is a summary of another.
 
 Because this copy is active, do **not** also load the `low-battery` skill — it is the same content twice.
 
-**This copy is complete and self-contained.** `T1` to `T9` are written out in full below — there is
+**This copy is complete and self-contained.** `T1` to `T10` are written out in full below — there is
 nothing to fetch and no file to read. (The skill copy splits them into `templates/` files, because it is
 a directory and can. A single always-on file cannot.)
