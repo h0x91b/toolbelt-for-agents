@@ -1,0 +1,54 @@
+name: plugins load in Claude Code
+
+# Schema validation does not catch load-layer breakage — a bad hooks path, a duplicate
+# component declaration, an output style Claude Code refuses. So actually install every
+# plugin from this checkout into a scratch config dir and require it to reach "enabled".
+on:
+  pull_request:
+    paths:
+      - .claude-plugin/**
+      - plugins/**
+      - src/**
+      - scripts/build.mjs
+      - .github/workflows/plugin-load-check.yml
+  push:
+    branches: [main]
+
+jobs:
+  load:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate each plugin manifest
+        run: |
+          for d in plugins/*/; do
+            echo "::group::validate $d"
+            claude plugin validate "$d"
+            echo "::endgroup::"
+          done
+
+      - name: Install every plugin into a scratch config
+        run: |
+          export CLAUDE_CONFIG_DIR="$RUNNER_TEMP/claude-scratch"
+          mkdir -p "$CLAUDE_CONFIG_DIR"
+          claude plugin marketplace add "$GITHUB_WORKSPACE"
+          for d in plugins/*/; do
+            name=$(basename "$d")
+            claude plugin install "$name@toolbelt-for-agents"
+          done
+          claude plugin list | tee plugin-list.txt
+          for d in plugins/*/; do
+            name=$(basename "$d")
+            grep -q "$name" plugin-list.txt || {
+              echo "::error::$name is missing from 'claude plugin list'"
+              exit 1
+            }
+          done
+          grep -q "enabled" plugin-list.txt || {
+            echo "::error::no plugin reached 'enabled'; see the list output above"
+            exit 1
+          }

@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+
+# machine-local agent settings, not part of the marketplace
+.claude/settings.local.json

@@ -1,0 +1,22 @@
+{
+  "marketplace": {
+    "name": "toolbelt-for-agents",
+    "description": "Cross-harness plugins and skills for coding agents. One source of truth per plugin, generated for every harness.",
+    "owner": {
+      "name": "Arseny Pavlenko",
+      "url": "https://github.com/h0x91b"
+    }
+  },
+  "repo": {
+    "slug": "h0x91b/toolbelt-for-agents",
+    "url": "https://github.com/h0x91b/toolbelt-for-agents",
+    "gitUrl": "https://github.com/h0x91b/toolbelt-for-agents.git",
+    "ref": "main",
+    "license": "Apache-2.0"
+  },
+
+  "plugins": ["low-battery"],
+
+  "//rootHarnessOwner": "Some harnesses only read instruction files from the REPOSITORY root (Gemini extensions, Cursor rules, Zed .rules, Copilot instructions, Antigravity plugin.json, root AGENTS.md). Those root files are generated from exactly one plugin — named here. Every other plugin ships through the marketplace and its own plugin directory only.",
+  "rootHarnessOwner": "low-battery"
+}
