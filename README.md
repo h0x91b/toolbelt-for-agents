@@ -106,6 +106,11 @@ what kind of answer you wanted.
 | `T4` | Choosing between options | `T9` | You didn't get the last answer, again but properly |
 | `T5` | Work that hasn't started yet | | |
 
+> ⚠️ **The `Template:` line is temporary — treat it as beta.** It exists so I can see which shape the
+> model picked while I'm still tuning the rules, and go edit that exact template. It will probably be
+> dropped once the shapes settle; it may also stay, because knowing which template to edit is genuinely
+> handy. Either way, don't build anything that depends on that line being there.
+
 Before sending, the model walks a 23-item checklist in its own thinking — did it pick the right shape,
 is every fact still there, is anything left unglossed. Most of the enforcement lives there.
 
