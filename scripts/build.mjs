@@ -220,7 +220,11 @@ function buildPlugin(id, { ownsRoot }) {
       `name: ${meta.outputStyle.name}\n` +
       `description: ${yamlStr(meta.outputStyle.description)}\n` +
       `keep-coding-instructions: ${meta.outputStyle.keepCodingInstructions}\n` +
-      `force-for-plugin: ${meta.outputStyle.forceForPlugin}\n` +
+      // `force-for-plugin` is written only when a plugin really wants to seize the answer format
+      // on enable. `false` is not the same as absent: once a forced plugin style exists, Claude
+      // Code stops reading the user's own `outputStyle` at all, so the style can no longer be
+      // switched off from `/config` — only by disabling the whole plugin. Opt in, never default.
+      (meta.outputStyle.forceForPlugin === true ? `force-for-plugin: true\n` : ``) +
       `---\n\n` +
       `${GEN_MD(id, "Claude Code output style")}\n\n` +
       `${styleBody}`
@@ -331,7 +335,7 @@ function buildPlugin(id, { ownsRoot }) {
       `|---|---|\n` +
       `| \`skills/${id}/SKILL.md\` | Every skills-aware harness — always-on rules plus a map of the templates |\n` +
       `| \`skills/${id}/templates/T1.md\`…\`T9.md\` | Read on demand, one per turn |\n` +
-      `| \`output-styles/${id}.md\` | Claude Code — \`force-for-plugin: true\`, applies on enable |\n` +
+      `| \`output-styles/${id}.md\` | Claude Code — the user picks it in \`/config\` → Output style |\n` +
       `| \`.claude-plugin/plugin.json\` | Claude Code manifest |\n` +
       `| \`.codex-plugin/plugin.json\` | Codex manifest |\n` +
       `| \`skills/${id}/agents/openai.yaml\` | Codex per-skill interface |\n` +

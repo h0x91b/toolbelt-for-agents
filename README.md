@@ -15,8 +15,14 @@ claude plugin marketplace add h0x91b/toolbelt-for-agents
 claude plugin install low-battery@toolbelt-for-agents
 ```
 
-That's it for Claude Code — no command to type, no mode to switch on. Every other harness is one
-command too: **[INSTALL.md](INSTALL.md)**.
+Installing puts the style in your list; it does not take over your answers. Switch it on once:
+
+1. Run `/config` in Claude Code.
+2. Type `output style` to filter, then Enter on that row.
+3. Press Space, pick **`low-battery:Low Battery`**, Enter to confirm, Enter again to save.
+
+It is a normal setting from then on — pick `Default` again whenever you want out. Every other harness is
+one command: **[INSTALL.md](INSTALL.md)**.
 
 ---
 
@@ -125,15 +131,12 @@ why the two are shaped differently.
 
 Say **"stop low-battery"** or **"normal mode"** and it's off for that conversation.
 
-In Claude Code it's applied automatically the moment the plugin is enabled (that's the
-`force-for-plugin` flag), so to stop that permanently:
+To turn it off for good, put the setting back: `/config` → **Output style** → `Default`. The style stays
+installed, it just isn't applied. To remove it from the list entirely:
 
 ```bash
 claude plugin disable low-battery
 ```
-
-If you noticed your answers changed shape and couldn't find why — that's this, and the line above is
-the off switch.
 
 ---
 
@@ -141,7 +144,7 @@ the off switch.
 
 | | Covers | Notes |
 |---|---|---|
-| **Output style** | Your main conversation | Claude Code only. Applies itself, nothing to invoke |
+| **Output style** | Your main conversation | Claude Code only. Pick it once in `/config`, then nothing to invoke |
 | **Skill** | Subagents, and any harness without output styles | Gives you an explicit `/low-battery` handle |
 
 Subagents run their own system prompt and never see an output style, which is why the skill ships too.

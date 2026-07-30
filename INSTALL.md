@@ -24,23 +24,18 @@ Every command below already does. Anything that installs a single file — the p
 rule — is complete on its own and needs nothing extra.
 
 <details>
-<summary><strong>Claude Code — installing is all you do; the output style applies itself</strong></summary>
+<summary><strong>Claude Code — install the plugin, then pick the output style in <code>/config</code></strong></summary>
 
-The plugin ships a Claude Code output style with `force-for-plugin: true` in its frontmatter
-(`plugins/low-battery/output-styles/low-battery.md`). Once the plugin is **enabled**, that style is applied
-**automatically to every main-conversation turn** — no command to type, no setting to flip. It also
-**overrides your own `outputStyle` setting**: whatever you picked in `/config` is ignored while this plugin is
-enabled.
+The plugin ships a Claude Code output style at `plugins/low-battery/output-styles/low-battery.md`. Installing
+the plugin adds it to your list of styles. **It does not apply itself** — you pick it, exactly like any
+built-in style, and you can pick your way back out.
 
-There is no `/low-battery` to type for the main conversation. Install and it works.
+That is deliberate. A plugin *can* seize the format by putting `force-for-plugin: true` in the style's
+frontmatter, which makes Claude Code apply it on enable and stop reading your `outputStyle` at all — at which
+point the only way out is disabling the whole plugin. This plugin does not do that. Installing a marketplace
+plugin should not take your answer format hostage.
 
-**To turn it off: disable or uninstall the plugin.** Nothing else removes it — not `/config`, not changing
-`outputStyle`.
-
-```bash
-claude plugin disable low-battery     # keep it installed, stop forcing the style
-claude plugin enable low-battery      # back on
-```
+There is no `/low-battery` to type for the main conversation — once the style is picked, it is simply on.
 
 **The complement — why a skill exists too.** An output style applies to the **main conversation only**.
 Subagents run their own system prompt and never see it. So the same rules also ship as a skill at
@@ -54,7 +49,26 @@ claude plugin marketplace add h0x91b/toolbelt-for-agents
 claude plugin install low-battery@toolbelt-for-agents
 ```
 
-Restart Claude Code. From the next turn, answers come out in low-battery shape.
+Restart Claude Code.
+
+### Switch the style on — required, one time
+
+1. Run `/config`.
+2. Type `output style` to filter the list, then press Enter on that row.
+3. Press Space to open the picker, choose **`low-battery:Low Battery`**, Enter to confirm, Enter again to save.
+
+The `low-battery:` prefix is Claude Code marking a style as coming from a plugin — the style's own name is
+`Low Battery`. From the next turn, answers come out in low-battery shape.
+
+Prefer editing the file? Put this in `~/.claude/settings.json` for every project, or in
+`.claude/settings.local.json` for one:
+
+```json
+{ "outputStyle": "low-battery:Low Battery" }
+```
+
+To turn it off, set it back to `Default` the same way. Say "stop low-battery" or "normal mode" to drop it for
+the current conversation only.
 
 ### Verify
 
@@ -62,8 +76,11 @@ Restart Claude Code. From the next turn, answers come out in low-battery shape.
 claude plugin list
 ```
 
-`low-battery` should be listed and enabled. In a session, `/config` will show the style is being forced by the
-plugin rather than by your setting.
+`low-battery` should be listed and enabled.
+
+⚠️ `/config` shows the **saved setting**, not what is actually in force. If the row reads `Default` while your
+answers still arrive in low-battery shape, something else is supplying the rules — most likely a
+`low-battery` copy in your own `~/.claude/output-styles/`, or the always-on hook below.
 
 Trying it from a clone, without installing anything:
 
@@ -99,9 +116,9 @@ claude plugin marketplace remove toolbelt-for-agents
 file exists. It is opt-in: no flag file, no injection, so installing the plugin changes nothing through this
 path.
 
-**For Claude Code it is redundant.** The forced output style already applies the same rules to every
-main-conversation turn. Setting the flag too is harmless but loads the same text twice for nothing. Use it only
-if you disabled the output style and still want always-on:
+**For Claude Code it is redundant once the output style is picked** — that already applies the same rules to
+every main-conversation turn, and setting the flag too loads the same text twice for nothing. Use it only if
+you would rather not set an `outputStyle` at all and still want the rules always on:
 
 ```bash
 touch ~/.claude/.low-battery-always     # opt in
@@ -455,7 +472,7 @@ One row per harness: the minimum file you need, and whether the rules apply on t
 
 | Harness | Minimum file | Applies |
 |---|---|---|
-| Claude Code — main conversation | `plugins/low-battery/output-styles/low-battery.md` (`force-for-plugin: true`) | **Automatically**, every turn, once the plugin is enabled. Overrides your own `outputStyle` |
+| Claude Code — main conversation | `plugins/low-battery/output-styles/low-battery.md` | Every turn, once **you** pick it in `/config` → Output style. Installing alone does nothing |
 | Claude Code — subagents | `plugins/low-battery/skills/low-battery/SKILL.md` | On invocation only. Output styles never reach a subagent |
 | Claude Code / Codex — hook route | `plugins/low-battery/hooks/always-on.sh` + flag file | **Automatically**, every session, but only while the flag file exists |
 | Codex | `plugins/low-battery/skills/low-battery/SKILL.md` | On invocation (`$low-battery` or `/skills`). Automatic only via the hook flag or `~/.codex/AGENTS.md` |
@@ -479,16 +496,21 @@ present with certainty rather than probability, use the always-on hook and check
 **`/low-battery` is not in autocomplete.** Restart the agent. The plugin and skill index is read at startup,
 so a skill installed mid-session is invisible until the next one.
 
-**Answers suddenly changed shape and I cannot find which setting did it.** The output style is applied by the
-plugin, not by your settings, because its frontmatter says `force-for-plugin: true`. Your own `outputStyle`
-value is being overridden and `/config` will not let you win. Turn it off by disabling the plugin:
+**I installed the plugin and nothing changed.** Expected — installing only adds the style to the list. Pick it
+in `/config` → **Output style** → `low-battery:Low Battery`, or set `"outputStyle": "low-battery:Low Battery"`
+in your settings file. This plugin deliberately does not force itself on you.
 
-```bash
-claude plugin disable low-battery
-```
+**Answers changed shape and `/config` says `Default`.** `/config` shows the saved setting, not what is actually
+in force, so something else is supplying the rules. In order of likelihood: a `low-battery` file of your own in
+`~/.claude/output-styles/`, the always-on hook's flag file (`~/.claude/.low-battery-always`), a context-file
+copy in the project (`AGENTS.md`, `CLAUDE.md`, `.rules`, `.cursor/rules/`), or a different plugin that *does*
+use `force-for-plugin: true`. Saying "stop low-battery" or "normal mode" turns it off for the current session
+whichever route it came in by.
 
-`claude plugin uninstall low-battery` removes it entirely. Saying "stop low-battery" or "normal mode" only
-covers the current session.
+**I want the style applied automatically on install, in my own fork.** Set `"forceForPlugin": true` under
+`outputStyle` in `src/low-battery/meta.json` and rebuild. Know the cost: Claude Code then stops reading your
+`outputStyle` entirely, so the style can no longer be switched off from `/config` — only with
+`claude plugin disable low-battery`.
 
 **`claude plugin marketplace add` fails.** Use the `owner/repo` form: `h0x91b/toolbelt-for-agents`. If you are
 pointing at a local checkout, the path must be the **repo root** — the directory that *contains*

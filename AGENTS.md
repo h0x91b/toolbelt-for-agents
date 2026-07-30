@@ -134,8 +134,16 @@ claude plugin install low-battery@toolbelt-for-agents
 claude plugin list          # → "Status: ✔ enabled"
 ```
 
-A scratch config has **no credentials**, so it cannot run a prompt — `force-for-plugin` is verifiable as
-present and valid, never as observed behaviour. Say so rather than implying you saw it work.
+A scratch config has **no credentials**, so it cannot run a prompt. Anything about how an answer comes out is
+verifiable there as present and valid, never as observed behaviour — say so rather than implying you saw it
+work. To watch actual output you need the user's real config and a throwaway project directory.
+
+The output style is **not** forced. `force-for-plugin: true` in an output style's frontmatter makes Claude Code
+apply it the moment the plugin is enabled and stop reading the user's `outputStyle` at all, which also means
+`/config` can no longer switch it off — only `claude plugin disable`. This plugin shipped that way for one
+version and it was wrong: installing a marketplace plugin must not seize the answer format. `meta.json` now
+carries `"forceForPlugin": false` plus a `//forceForPlugin` note, and `build.mjs` emits the frontmatter key only
+when it is `true`. Do not turn it back on.
 
 When you change how the rules are split, prove nothing was lost. Compare the multiset of non-blank lines
 before and after, rather than eyeballing it:
