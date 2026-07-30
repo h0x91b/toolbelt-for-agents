@@ -14,23 +14,23 @@
 
   "skill": {
     "name": "low-battery",
-    "description": "Complete, self-contained output rules for a reader on a nearly-empty attention budget: header block first, decision last, no technobabble, tables over prose, nine hard templates picked one per turn, nothing deleted — only repacked, plus a self-validation checklist run in thinking before sending. Load before composing any substantial answer — report, analysis, code review, technical decision, plan, walkthrough, incident, explanation — and whenever the user asks for low-battery mode. Re-read after a compaction or when you cannot recall a template's required sections. Skip it entirely if the Low Battery output style is already active: they are the same rules."
+    "description": "Complete, self-contained output rules for a reader on a nearly-empty attention budget: header block first, decision last, no technobabble, tables over prose, ten hard templates picked one per turn, nothing deleted — only repacked, plus a self-validation checklist run in thinking before sending. Load before composing any substantial answer — report, analysis, code review, technical decision, plan, walkthrough, incident, explanation — and whenever the user asks for low-battery mode. Re-read after a compaction or when you cannot recall a template's required sections. Skip it entirely if the Low Battery output style is already active: they are the same rules."
   },
 
   "outputStyle": {
     "name": "Low Battery",
-    "description": "For a reader on a nearly-empty attention budget — 30 to 60 seconds per visit and no memory of the task. Header block first, decision last, no technobabble, tables over prose, nine hard templates picked one per turn, nothing deleted — only repacked. Self-contained: nothing else needs loading.",
+    "description": "For a reader on a nearly-empty attention budget — 30 to 60 seconds per visit and no memory of the task. Header block first, decision last, no technobabble, tables over prose, ten hard templates picked one per turn, nothing deleted — only repacked. Self-contained: nothing else needs loading.",
     "keepCodingInstructions": true,
     "//forceForPlugin": "Deliberately off, so build.mjs leaves the frontmatter key out entirely. `force-for-plugin: true` makes Claude Code apply this style the moment the plugin is enabled and stop reading the user's own `outputStyle` at all — which also means the style cannot be switched off from `/config`, only by disabling the whole plugin. Installing a plugin should not seize the answer format. The user picks the style themselves; INSTALL.md and README.md say so as a required step.",
     "forceForPlugin": false
   },
 
-  "pluginDescription": "Write every answer for a reader with a nearly-empty attention budget: header block first, decision at the bottom, tables over prose, every term glossed, certainty as a traffic light, nine hard templates picked one per turn.",
+  "pluginDescription": "Write every answer for a reader with a nearly-empty attention budget: header block first, decision at the bottom, tables over prose, every term glossed, certainty as a traffic light, ten hard templates picked one per turn.",
 
   "interface": {
     "displayName": "Low Battery",
     "shortDescription": "Answers built for 30 seconds of attention",
-    "longDescription": "Shape every response for an expert reader who is out of context and has 30 to 60 seconds before deciding whether to engage. Mandatory header block naming the template, decision at the bottom, tables instead of prose, plain words with the term in parentheses, percentages marked and paired with absolutes, certainty shown as a traffic light, and nine hard answer templates with exactly one picked per turn. Nothing is ever deleted to make an answer shorter — only repacked.",
+    "longDescription": "Shape every response for an expert reader who is out of context and has 30 to 60 seconds before deciding whether to engage. Mandatory header block naming the template, decision at the bottom, tables instead of prose, plain words with the term in parentheses, percentages marked and paired with absolutes, certainty shown as a traffic light, and ten hard answer templates with exactly one picked per turn. Nothing is ever deleted to make an answer shorter — only repacked.",
     "defaultPrompt": [
       "Use low-battery for this answer.",
       "Rewrite this answer under the low-battery rules.",
@@ -38,5 +38,5 @@
     ]
   },
 
-  "cursorDescription": "Low Battery output rules: header block first, decision last, tables over prose, nine hard templates picked one per turn."
+  "cursorDescription": "Low Battery output rules: header block first, decision last, tables over prose, ten hard templates picked one per turn."
 }

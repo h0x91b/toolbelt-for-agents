@@ -49,10 +49,10 @@ const GEN_HASH = (id, target) =>
   `# GENERATED from src/${id}/RULES.md by scripts/build.mjs — do not edit by hand.\n` +
   `# Edit the source, then run: node scripts/build.mjs   (target: ${target})`;
 
-const TEMPLATE_IDS = ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9"];
+const TEMPLATE_IDS = ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10"];
 
 /**
- * Reads the nine template files and pulls out what the lazy-load map needs.
+ * Reads the template files and pulls out what the lazy-load map needs.
  * `sections` counts the numbered required sections; templates split into modes
  * (only T8 today) report one count per mode, e.g. "6 + 5".
  */
@@ -60,7 +60,7 @@ function readTemplates(id) {
   return TEMPLATE_IDS.map((tid) => {
     const body = read(`src/${id}/templates/${tid}.md`);
     const head = body.split("\n", 1)[0];
-    const m = head.match(/^## (T\d) · (.+)$/);
+    const m = head.match(/^## (T\d+) · (.+)$/);
     if (!m) throw new Error(`${tid}.md must start with "## T<n> · <Name>", got: ${head}`);
     // Count numbered items per "### " block so a two-mode template reports both.
     const blocks = body.split(/^### /m).map((b) => (b.match(/^\d+\. \*\*/gm) || []).length);
@@ -147,23 +147,30 @@ const templatesInline = (tpl) => tpl.map((t) => t.body).join("\n\n") + "\n";
  * T1 is inlined because it is two lines: reading a file for it costs more than the template.
  */
 function templatesLazy(prose, tpl) {
-  const rows = tpl
-    .map(
-      (t) =>
-        `| \`${t.id}\` | ${t.name} | ${t.sections} | ` +
-        (t.id === "T1" ? "inline below" : `\`templates/${t.id}.md\``) +
-        " |"
-    )
-    .join("\n");
   const t1 = tpl.find((t) => t.id === "T1");
-  return (
-    prose.trimEnd() +
-    "\n\n| | Template | Sections | Read |\n|---|---|---|---|\n" +
-    rows +
-    "\n\n" +
-    t1.body +
-    "\n"
-  );
+  return prose.trimEnd() + "\n\n" + t1.body + "\n";
+}
+
+/** Where each template's body lives, as the skill sees it. */
+const readCell = (t) => (t.id === "T1" ? "inline below" : `\`templates/${t.id}.md\``);
+
+/**
+ * Skill only: widen the "How to pick" table with `Sections` and `Read`, instead of
+ * repeating all ten template names in a second table underneath. One table, one lookup.
+ * Single-file copies keep the narrow table — they have no files to point at.
+ */
+function mergePickTable(body, tpl) {
+  const head = "| | Template | Pick it when |\n|---|---|---|\n";
+  if (!body.includes(head)) {
+    throw new Error('the "How to pick" table header changed in RULES.md — update mergePickTable()');
+  }
+  let out = body.replace(head, "| | Template | Pick it when | Sections | Read |\n|---|---|---|---|---|\n");
+  for (const t of tpl) {
+    const row = new RegExp(`^\\| \`${t.id}\` \\| .+ \\|$`, "m");
+    if (!row.test(out)) throw new Error(`no "How to pick" row for ${t.id} in RULES.md`);
+    out = out.replace(row, (line) => `${line} ${t.sections} | ${readCell(t)} |`);
+  }
+  return out;
 }
 
 // ---------------------------------------------------------------------------
@@ -185,7 +192,10 @@ function buildPlugin(id, { ownsRoot }) {
   const inlineTpl = templatesInline(tpl);
   const blocks = readLazyBlocks(id, rules);
 
-  const skillBody = renderBody(rules, meta.titles.skill, frag("skill"), lazyTpl, blocks, true);
+  const skillBody = mergePickTable(
+    renderBody(rules, meta.titles.skill, frag("skill"), lazyTpl, blocks, true),
+    tpl
+  );
   const styleBody = renderBody(rules, meta.titles["output-style"], frag("output-style"), inlineTpl, blocks, false);
   const contextBody = renderBody(rules, meta.titles["context-file"], frag("context-file"), inlineTpl, blocks, false);
 
@@ -334,7 +344,7 @@ function buildPlugin(id, { ownsRoot }) {
       `| File | Harness |\n` +
       `|---|---|\n` +
       `| \`skills/${id}/SKILL.md\` | Every skills-aware harness — always-on rules plus a map of the templates |\n` +
-      `| \`skills/${id}/templates/T1.md\`…\`T9.md\` | Read on demand, one per turn |\n` +
+      `| \`skills/${id}/templates/${TEMPLATE_IDS[0]}.md\`…\`${TEMPLATE_IDS.at(-1)}.md\` | Read on demand, one per turn |\n` +
       `| \`output-styles/${id}.md\` | Claude Code — the user picks it in \`/config\` → Output style |\n` +
       `| \`.claude-plugin/plugin.json\` | Claude Code manifest |\n` +
       `| \`.codex-plugin/plugin.json\` | Codex manifest |\n` +

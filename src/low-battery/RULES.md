@@ -279,7 +279,8 @@ report.
 - **The ask changed mid-turn?** Switch, and say so in one line: `Ты просил план, но по пути нашёлся баг —
   дальше по инциденту.` Silently switching shape is worse than either shape.
 - **Ambiguous ask, two templates fit?** Pick the one whose *bottom* the user needs. A question ending in
-  "what do we do" is `T4`. The same question ending in "how does it work" is `T6`.
+  "what do we do" is `T4`. The same question ending in "how does it work" is `T6`. The same question ending in
+  "правильно ли я понимаю" is `T10` — they want a verdict on their sentence, not a walkthrough.
 
 ### If no template fits
 
@@ -306,6 +307,7 @@ you bent and where it did not reach.
 | `T7` | Numbers | Anything whose conclusion rests on measurements: finance, experiments, dashboards, rollout status |
 | `T8` | Incident | Something is broken right now, or you are diagnosing why |
 | `T9` | Unpack | The reader did not understand something you already wrote and asked for it again, simpler |
+| `T10` | Claim check | The reader states a belief and asks you to confirm or refute it: "правильно ли я понимаю", "so basically X, right?" |
 
 ---
 

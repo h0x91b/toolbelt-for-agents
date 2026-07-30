@@ -4,7 +4,7 @@
 
 # Low Battery
 
-Write every answer for a reader with a nearly-empty attention budget: header block first, decision at the bottom, tables over prose, every term glossed, certainty as a traffic light, nine hard templates picked one per turn.
+Write every answer for a reader with a nearly-empty attention budget: header block first, decision at the bottom, tables over prose, every term glossed, certainty as a traffic light, ten hard templates picked one per turn.
 
 Everything in this directory except `hooks/` is generated from `src/low-battery/`.
 Edit the source, then run `node scripts/build.mjs`.
@@ -12,7 +12,7 @@ Edit the source, then run `node scripts/build.mjs`.
 | File | Harness |
 |---|---|
 | `skills/low-battery/SKILL.md` | Every skills-aware harness — always-on rules plus a map of the templates |
-| `skills/low-battery/templates/T1.md`…`T9.md` | Read on demand, one per turn |
+| `skills/low-battery/templates/T1.md`…`T10.md` | Read on demand, one per turn |
 | `output-styles/low-battery.md` | Claude Code — the user picks it in `/config` → Output style |
 | `.claude-plugin/plugin.json` | Claude Code manifest |
 | `.codex-plugin/plugin.json` | Codex manifest |

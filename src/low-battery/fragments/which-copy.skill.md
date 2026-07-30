@@ -11,6 +11,6 @@ This copy is a directory, so part of the rule set sits in files next to this one
 
 | Always here, in full | In `templates/` | In `reference/` |
 |---|---|---|
-| Parts 1 and 3, certainty and caveats, Part 5, the self-validation checklist | the nine answer templates | numbers, nested proportions, how to build the page |
+| Parts 1 and 3, certainty and caveats, Part 5, the self-validation checklist | the ten answer templates | numbers, nested proportions, how to build the page |
 
 Read one of those the moment the rule pointing at it applies — not before, and never instead.

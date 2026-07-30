@@ -59,7 +59,7 @@ its own; none is a summary of another.
 
 Because this copy is active, do **not** also load the `low-battery` skill — it is the same content twice.
 
-**This copy is complete and self-contained.** `T1` to `T9` are written out in full below — there is
+**This copy is complete and self-contained.** `T1` to `T10` are written out in full below — there is
 nothing to fetch and no file to read. (The skill copy splits them into `templates/` files, because it is
 a directory and can. A single always-on file cannot.)
 
@@ -374,7 +374,8 @@ report.
 - **The ask changed mid-turn?** Switch, and say so in one line: `Ты просил план, но по пути нашёлся баг —
   дальше по инциденту.` Silently switching shape is worse than either shape.
 - **Ambiguous ask, two templates fit?** Pick the one whose *bottom* the user needs. A question ending in
-  "what do we do" is `T4`. The same question ending in "how does it work" is `T6`.
+  "what do we do" is `T4`. The same question ending in "how does it work" is `T6`. The same question ending in
+  "правильно ли я понимаю" is `T10` — they want a verdict on their sentence, not a walkthrough.
 
 ### If no template fits
 
@@ -401,6 +402,7 @@ you bent and where it did not reach.
 | `T7` | Numbers | Anything whose conclusion rests on measurements: finance, experiments, dashboards, rollout status |
 | `T8` | Incident | Something is broken right now, or you are diagnosing why |
 | `T9` | Unpack | The reader did not understand something you already wrote and asked for it again, simpler |
+| `T10` | Claim check | The reader states a belief and asks you to confirm or refute it: "правильно ли я понимаю", "so basically X, right?" |
 
 ---
 
@@ -654,6 +656,40 @@ Several things to unpack in one turn → repeat sections 2 to 5 per item, then o
 An unpack turn brings **no new facts**. If one surfaces while you are writing — you re-checked something and it
 turned out different, or you noticed a gap — mark it inline: `(новое, в прошлый раз этого не было)`. Otherwise
 the reader cannot tell explanation from fresh work, and stops trusting both.
+
+## T10 · Claim check
+
+**Fires on:** "правильно ли я понимаю", "so basically X, right?", "confirm or refute this", "is my mental model
+right", "am I missing something here" — the reader states a belief and hands it to you to judge.
+
+The thing under review is **a sentence, not an artifact**. That is what separates it from the neighbours:
+
+- Not `T3`. A review judges something that exists — code, a document, a dashboard — and every finding gets an
+  anchor. A belief has no `file:line`, and forcing one produces fake precision.
+- Not `T8·B`. There the hypothesis is *yours*, about something broken, and the bottom is the cheapest test that
+  would disprove it. Here the claim is *theirs* and you answer it now.
+- Not `T1`. "Yes, mostly" is not an answer — the whole value is in which parts survive and which do not.
+
+1. **Header block.**
+2. **The claim, restated in one sentence** — in your words, not theirs. Half of all disagreements are about what
+   was actually claimed. If their wording carries two readings, say which one you are answering and name the
+   other in one line.
+3. **The verdict** — the first line after the restatement, never buried below the reasoning. Exactly one of:
+   **yes** · **yes, but** · **no** · **can't tell from here**. The last one must say what would settle it.
+4. **Where it holds** — the parts of the claim that survive, and why each one does. Concrete. "In general yes"
+   is not a section.
+5. **Where it breaks** — a table, mandatory, with the certainty colours:
+
+   | | Part of the claim | What is actually true | What it costs to be wrong |
+   |---|---|---|---|
+   | 🟢 | "the cascade merges per key" | It does — `src/bun/repo-config.ts:222` | nothing, this part is right |
+   | 🔴 | "so the design is fine" | Two of the three objections never involved secrets | you ship the same problem back |
+
+   Nothing breaks? Keep the heading and say so in one line. A deleted heading reads as "didn't check".
+6. **What still stands even if you're right** — the objections, costs, or facts left untouched by the claim being
+   true. This is the section that earns the turn: without it, "yes" reads as "so we're done here", which is
+   almost never what a confirmed claim actually means.
+7. **Decision** — what the verdict changes, and what is now waiting on their call.
 
 ---
 

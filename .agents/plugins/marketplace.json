@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "low-battery",
-      "description": "Write every answer for a reader with a nearly-empty attention budget: header block first, decision at the bottom, tables over prose, every term glossed, certainty as a traffic light, nine hard templates picked one per turn.",
+      "description": "Write every answer for a reader with a nearly-empty attention budget: header block first, decision at the bottom, tables over prose, every term glossed, certainty as a traffic light, ten hard templates picked one per turn.",
       "source": {
         "source": "url",
         "url": "https://github.com/h0x91b/toolbelt-for-agents.git",
