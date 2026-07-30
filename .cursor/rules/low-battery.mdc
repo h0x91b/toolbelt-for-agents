@@ -238,7 +238,7 @@ Authorization: Bearer.`
 | **3+ numbers in one paragraph → that paragraph becomes a table or a list** | No exceptions. Numbers compare only vertically |
 | Separate sections of a long answer with `---` | Without separators the sections blur together and navigation is gone |
 | Thousands separated: `17 265` | |
-| Icons carry meaning only, never decoration | 🟢🟡🔴 = certainty. ⚠️ = caveat. Nothing else |
+| Icons carry meaning only, never decoration | The traffic light is the only icon set, and it always grades pain: 🟢🟡🔴 = certainty everywhere, 🔴🟠🟡🟢 = severity inside `T3 · Review`. ⚠️ = caveat. Nothing else |
 
 ---
 
@@ -306,7 +306,10 @@ They must never look alike.
 
 🟢 we know · 🟡 we don't know · 🔴 we didn't look
 
-In a review, a diagnosis, or any piece of work with uneven coverage:
+⚠️ One exception: in `T3 · Review` these colours are already spent grading severity, so certainty there is
+written in words — `ran it` / `read it only` / `didn't open it`. One colour, one meaning, per answer.
+
+In a diagnosis, or any piece of work with uneven coverage:
 
 | | What | How far it was checked | What that means |
 |---|---|---|---|
@@ -445,17 +448,66 @@ On "explain this / walk me through it" the body runs as long as the topic needs 
 
 ## T3 · Review
 
+The reader opens a review to answer one question first: **is there anything serious in here?** If yes, they go
+deep. If no, they want to know what the change is about and move on. Everything below is ordered around that.
+
+**A review always gets an interactive page** — see Part 4. This is the one template where the thresholds do not
+apply: severity filters and a collapsible nitpick list only exist in the page, and they are what makes a long
+findings list usable.
+
 1. **Header block.**
-2. **Scope** — what was reviewed (files, commits, document, dashboard), and **what was not looked at**, as 🔴
-   rows. Silence reads as "verified", and that is the single most expensive misread in a review.
-3. **Findings** — one ranked table, anchored:
+2. **The gate** — one line, directly under the header block, nothing between:
 
-   | | Where | What's wrong | Why it matters | What to do |
-   |---|---|---|---|---|
-   | 🔴 | `src/auth.ts:42` | Token expiry is never checked | An expired token still gets into the account | Check `exp` before `verify` |
-   | 🟡 | `src/db.ts:88` | Query inside a loop | 200 users = 200 queries | Collapse into one `IN (...)` |
+   `Blockers: 0 · Blast radius: 🟡 one subsystem — the new hasAppModifier helper, called from one branch`
 
-   🔴 blocker · 🟡 worth fixing · ⚪ nitpick
+   Two numbers and nothing else. Zero blockers plus a green or yellow radius means the reader can stop after
+   the one-line recap near the bottom.
+3. **What this change is about** — the description, and the section the reader lands on when the gate is clean.
+   Three labelled blocks, because a wall of prose is what makes people skip it:
+
+   **Before.** What the code did, and why that was wrong.
+   **After.** What it does now.
+   **Why this way.** What made this the right shape — an existing contract, a convention, a rejected alternative.
+
+   This scales: on a large change each block is several paragraphs. It is **not** the one-line recap from step 10;
+   that one exists for the reader who skips this.
+4. **Blast radius** — how far the damage reaches if this change is wrong. Four levels, same traffic light:
+
+   🟢 isolated · 🟡 one subsystem · 🟠 shared code · 🔴 whole production / irreversible
+
+   | | Level | What it means | Typical |
+   |---|---|---|---|
+   | 🟢 | isolated | Nobody outside sees it | `README`, a new test, a comment |
+   | 🟡 | one subsystem | Only this feature breaks | a new screen, its own helper, a local fix |
+   | 🟠 | shared code | Touches what many things import; breaks somewhere other than where it was edited | a shared helper, build config, a dependency |
+   | 🔴 | whole production / irreversible | Data, money, migrations, authentication | a schema change, the payment path, global middleware |
+
+   Then a table: `what was touched / who calls it / how you know`. Two hard rules:
+
+   - **The radius is counted, not felt.** For each touched file, how many places import or call it — that number
+     goes in the answer. `grep`, not a hunch.
+   - **Next to the count, where it came from:** `counted the importers: 12` versus `did not check, judging by the
+     file name`.
+5. **Scope** — what was checked and **what was not looked at**, in words: `ran it` / `read it only` / `didn't
+   open it`. Silence reads as "verified", and that is the most expensive misread in a review. Colours are already
+   spent on severity here, so certainty is words only.
+6. **Findings** — one table, sorted worst first, anchored:
+
+   | | Where | What's wrong | Why it matters | Checked | What to do |
+   |---|---|---|---|---|---|
+   | 🔴 blocker | `src/auth.ts:42` | Token expiry is never checked | An expired token still gets into the account | read it only | Check `exp` before `verify` |
+   | 🟡 separate task | `src/db.ts:88` | Query inside a loop | 200 users = 200 queries | ran it, 1.8 s | Collapse into one `IN (...)` |
+
+   Legend, one line under the table, never a card of its own:
+
+   🔴 blocker — do not merge · 🟠 fix in this PR — the change belongs in this branch · 🟡 separate task — a real
+   problem, but not this PR's · 🟢 your call — a nitpick, fine to skip
+
+   **The colour always carries its word** — `🔴 blocker`, not a bare circle. Four levels are a scale of pain, so
+   they read in order without the legend.
+
+   **Nitpicks stay in this table**, sorted to the bottom as 🟢. They used to get their own section; sorting plus
+   the page's severity filter does the same job without splitting the list in two.
 
    **Anchor every finding.** Code → `file:line`. A document → the quoted sentence. A dashboard or query → the
    panel or the line of SQL. Without an anchor it is an opinion, not a finding. Nothing gets dropped for length —
@@ -466,9 +518,15 @@ On "explain this / walk me through it" the body runs as long as the topic needs 
 
    **Security pass?** One severity axis is not enough. Split it into two columns — how bad the damage is, and how
    easy the attack is. Otherwise everything collapses into 🔴 and nothing is prioritised.
-4. **Patterns** — only if a finding repeats: one rule beats eight identical rows.
-5. **Nitpicks** — their own section, at the end. Never mixed into the findings table.
-6. **Decision** — the verdict: merge, merge after the blockers, or rework.
+7. **Patterns** — only if a finding repeats: one rule beats eight identical rows.
+8. **The caveat that changes the decision** — its own section, loud. Typically what would go wrong if someone
+   fixed the 🟡 rows mechanically.
+9. **How to check it by hand** — numbered steps, expected result per step, new steps marked. Always **before**
+   the decision: the answer ends on the verdict, never on homework.
+10. **What this change does, in one line** — immediately above the decision. One or two sentences, no mechanics.
+    This is what the reader reads when the gate said zero blockers.
+11. **Decision** — the verdict as the first word: `Merge` / `Merge after the 🔴 and 🟠 rows` / `Rework`. Then what
+    needs their call.
 
 ## T4 · Decision
 
@@ -708,6 +766,11 @@ build the same content as a standalone interactive page as well:
 
 One condition without the other → chat only. A long answer with a single big table does not need a page.
 
+**`T3 · Review` always gets a page, however short** — this is the only exception, and it overrides both
+conditions. A review is the one turn the reader wants to filter and re-sort rather than read straight through:
+the severity filter over the findings table exists only in the page, and it is what stops nitpicks from burying
+the one row that mattered.
+
 The chat text stays exactly as written — the page is a duplicate in a better container, never a replacement and
 never a reason to trim. Don't ask permission, just build it; if the reader doesn't want it, they cancel.
 
@@ -789,7 +852,7 @@ Always:
 12. Zero technobabble. Does every sentence read correctly on the first pass?
 13. **Count the lines and the tables of what you just wrote.** Over ~100 lines **and** more than 2 tables →
     build the interactive page now (Part 4). Build it, don't offer it, don't note it for later. This is the
-    most-skipped rule here.
+    most-skipped rule here. A `T3 · Review` gets a page regardless of both counts.
 14. Did the template you tagged actually get followed — every required section of it present or deliberately
     empty?
 
