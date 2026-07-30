@@ -3,3 +3,6 @@ node_modules/
 
 # machine-local agent settings, not part of the marketplace
 .claude/settings.local.json
+
+# throwaway drafts and artifact builds, never part of the marketplace
+.scratch/

@@ -210,7 +210,7 @@ Authorization: Bearer.`
 | **3+ numbers in one paragraph → that paragraph becomes a table or a list** | No exceptions. Numbers compare only vertically |
 | Separate sections of a long answer with `---` | Without separators the sections blur together and navigation is gone |
 | Thousands separated: `17 265` | |
-| Icons carry meaning only, never decoration | 🟢🟡🔴 = certainty. ⚠️ = caveat. Nothing else |
+| Icons carry meaning only, never decoration | The traffic light is the only icon set, and it always grades pain: 🟢🟡🔴 = certainty everywhere, 🔴🟠🟡🟢 = severity inside `T3 · Review`. ⚠️ = caveat. Nothing else |
 
 ---
 
@@ -227,7 +227,10 @@ They must never look alike.
 
 🟢 we know · 🟡 we don't know · 🔴 we didn't look
 
-In a review, a diagnosis, or any piece of work with uneven coverage:
+⚠️ One exception: in `T3 · Review` these colours are already spent grading severity, so certainty there is
+written in words — `ran it` / `read it only` / `didn't open it`. One colour, one meaning, per answer.
+
+In a diagnosis, or any piece of work with uneven coverage:
 
 | | What | How far it was checked | What that means |
 |---|---|---|---|
@@ -339,6 +342,11 @@ build the same content as a standalone interactive page as well:
 
 One condition without the other → chat only. A long answer with a single big table does not need a page.
 
+**`T3 · Review` always gets a page, however short** — this is the only exception, and it overrides both
+conditions. A review is the one turn the reader wants to filter and re-sort rather than read straight through:
+the severity filter over the findings table exists only in the page, and it is what stops nitpicks from burying
+the one row that mattered.
+
 The chat text stays exactly as written — the page is a duplicate in a better container, never a replacement and
 never a reason to trim. Don't ask permission, just build it; if the reader doesn't want it, they cancel.
 
@@ -391,7 +399,7 @@ Always:
 12. Zero technobabble. Does every sentence read correctly on the first pass?
 13. **Count the lines and the tables of what you just wrote.** Over ~100 lines **and** more than 2 tables →
     build the interactive page now (Part 4). Build it, don't offer it, don't note it for later. This is the
-    most-skipped rule here.
+    most-skipped rule here. A `T3 · Review` gets a page regardless of both counts.
 14. Did the template you tagged actually get followed — every required section of it present or deliberately
     empty?
 
