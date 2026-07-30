@@ -21,7 +21,8 @@
     "name": "Low Battery",
     "description": "For a reader on a nearly-empty attention budget — 30 to 60 seconds per visit and no memory of the task. Header block first, decision last, no technobabble, tables over prose, nine hard templates picked one per turn, nothing deleted — only repacked. Self-contained: nothing else needs loading.",
     "keepCodingInstructions": true,
-    "forceForPlugin": true
+    "//forceForPlugin": "Deliberately off, so build.mjs leaves the frontmatter key out entirely. `force-for-plugin: true` makes Claude Code apply this style the moment the plugin is enabled and stop reading the user's own `outputStyle` at all — which also means the style cannot be switched off from `/config`, only by disabling the whole plugin. Installing a plugin should not seize the answer format. The user picks the style themselves; INSTALL.md and README.md say so as a required step.",
+    "forceForPlugin": false
   },
 
   "pluginDescription": "Write every answer for a reader with a nearly-empty attention budget: header block first, decision at the bottom, tables over prose, every term glossed, certainty as a traffic light, nine hard templates picked one per turn.",

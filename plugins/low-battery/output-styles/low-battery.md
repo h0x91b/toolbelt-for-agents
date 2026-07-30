@@ -2,7 +2,6 @@
 name: Low Battery
 description: "For a reader on a nearly-empty attention budget — 30 to 60 seconds per visit and no memory of the task. Header block first, decision last, no technobabble, tables over prose, nine hard templates picked one per turn, nothing deleted — only repacked. Self-contained: nothing else needs loading."
 keep-coding-instructions: true
-force-for-plugin: true
 ---
 
 <!-- GENERATED from src/low-battery/RULES.md by scripts/build.mjs — do not edit by hand.
