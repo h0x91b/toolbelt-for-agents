@@ -26,6 +26,44 @@ one command: **[INSTALL.md](INSTALL.md)**.
 
 ---
 
+## Codex, and everywhere else: the install is not finished without this line
+
+Claude Code is the only harness with output styles. Codex, Cursor, Zed, Copilot and the rest install the rules
+as a **skill** — and a skill is loaded on demand, so on its own it does nothing until you name it every time.
+That is almost certainly not what you want, so treat the next step as part of the install rather than an extra.
+
+In Codex, that means two things: copy the skill folder, then add one line.
+
+```bash
+git clone https://github.com/h0x91b/toolbelt-for-agents
+mkdir -p ~/.agents/skills
+cp -R toolbelt-for-agents/plugins/low-battery/skills/low-battery ~/.agents/skills/
+```
+
+Then put this at the very **top** of `~/.codex/AGENTS.md`:
+
+```md
+Before writing your final answer, load the `low-battery` skill and follow it. Every turn, not only when asked.
+```
+
+Same line works anywhere an agent reads instructions from a file:
+
+| File | Scope |
+|---|---|
+| `~/.codex/AGENTS.md` | Every Codex session, every project |
+| `AGENTS.md` in a repo | That project only, for any harness that reads `AGENTS.md` |
+| `~/.claude/CLAUDE.md` | Claude Code subagents, which never see an output style |
+
+⚠️ If `~/.codex/AGENTS.override.md` exists, it **fully replaces** `~/.codex/AGENTS.md` and your line never
+reaches the model. Put it in the override instead, and check with
+`codex debug prompt-input | grep 'Before writing your final answer'`.
+
+One line beats pasting the whole rule set in: the rules stay in one place and update with the plugin. If you
+would rather have them injected wholesale at session start, [INSTALL.md](INSTALL.md) has the hook route and the
+paste-it-in route.
+
+---
+
 ## What it looks like
 
 You ask: *"Should we cache this endpoint in Redis?"*

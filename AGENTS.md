@@ -168,6 +168,7 @@ Do not rediscover these.
 | `$schema` or a top-level `description` in `marketplace.json` | Rejected as unrecognized keys. The description belongs under `metadata.description`, and omitting it is only a warning — easy to ship half-broken |
 | `(?m)` in a JS regex | Throws `Invalid group`. That is Python syntax; use the `m` flag: `/^### /m` |
 | Zed's "Create skill from URL" | Imports a **single file**, so it takes `SKILL.md` and leaves `templates/` behind. Any single-file install route needs the monolithic copy instead |
+| `codex plugin add low-battery@toolbelt-for-agents` | Reports success and `installed, enabled`, but exposes **no skill**. Codex uses the repository root as the plugin root and ignores the marketplace entry's `"source": "./plugins/low-battery"`, then writes its own synthesised `.codex-plugin/plugin.json` into the clone. Root has no `skills/`, so nothing loads. `codex plugin list` is not evidence — audit with `codex debug prompt-input`. Verified on `codex-cli 0.146.0`; the documented Codex route is `cp -R` into `~/.agents/skills/` |
 
 ## Conventions
 

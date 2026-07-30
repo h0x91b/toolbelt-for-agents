@@ -133,28 +133,7 @@ still turns the rules off for the current session.
 <details>
 <summary><strong>Codex — no output-style concept, so it is the skill plus one of two always-on routes</strong></summary>
 
-### Install
-
-```bash
-codex plugin marketplace add h0x91b/toolbelt-for-agents --ref main
-codex plugin add low-battery@toolbelt-for-agents
-```
-
-Start a new session and invoke it with `$low-battery`, or pick it from the `/skills` picker.
-
-### Verify
-
-```bash
-codex plugin list
-```
-
-To see what the model actually receives — the real audit, not a guess:
-
-```bash
-codex debug prompt-input
-```
-
-User-scope skills live in **`~/.agents/skills`**, not `~/.codex/skills`. If you are placing the skill by hand:
+### Install — copy the skill folder, do not rely on the marketplace route
 
 ```bash
 git clone https://github.com/h0x91b/toolbelt-for-agents
@@ -162,26 +141,74 @@ mkdir -p ~/.agents/skills
 cp -R toolbelt-for-agents/plugins/low-battery/skills/low-battery ~/.agents/skills/
 ```
 
+Start a new session and invoke it with `$low-battery`, or pick it from the `/skills` picker.
+
+User-scope skills live in **`~/.agents/skills`**, not `~/.codex/skills`.
+
+🔴 **The marketplace route does not currently work for this repo** — verified on `codex-cli 0.146.0`:
+
+```bash
+codex plugin marketplace add h0x91b/toolbelt-for-agents --ref main
+codex plugin add low-battery@toolbelt-for-agents      # reports success, exposes no skill
+```
+
+`codex plugin list` then says `installed, enabled`, and `codex debug prompt-input` shows the skill is absent.
+Codex treats the **repository root** as the plugin root and ignores the marketplace entry's
+`"source": "./plugins/low-battery"`; it even writes its own synthesised `.codex-plugin/plugin.json` into the
+clone. The root has no `skills/` directory, so there is nothing for it to pick up. Claude Code resolves the
+same field correctly. Use the `cp -R` above until this is fixed.
+
+### Verify
+
+```bash
+codex debug prompt-input | grep low-battery
+```
+
+That is the real audit rather than a guess — the skill should appear in the `### Available skills` list with a
+path under `~/.agents/skills`. `codex plugin list` is not evidence: it reports the plugin as installed either
+way.
+
 ### Update
 
 ```bash
-codex plugin remove low-battery
-codex plugin add low-battery@toolbelt-for-agents
+cd toolbelt-for-agents && git pull
+rm -rf ~/.agents/skills/low-battery
+cp -R plugins/low-battery/skills/low-battery ~/.agents/skills/
 ```
 
 ### Uninstall
+
+```bash
+rm -rf ~/.agents/skills/low-battery
+```
+
+If you did try the marketplace route, undo it too:
 
 ```bash
 codex plugin remove low-battery
 codex plugin marketplace remove toolbelt-for-agents
 ```
 
-### Always-on — two routes, pick one
+### Always-on — do this, or the skill only fires when you name it
 
 Codex has **no output-style concept at all**, so the automatic behaviour Claude Code gets for free has to be
-arranged here. Two ways:
+arranged here. Three routes, in the order worth trying.
 
-**Route 1 — the `SessionStart` hook flag.** This is the route the hook was written for.
+**Route 1 — one line in `~/.codex/AGENTS.md`.** Cheapest, and it survives plugin updates because the rules
+themselves stay in the skill.
+
+```md
+Before writing your final answer, load the `low-battery` skill and follow it. Every turn, not only when asked.
+```
+
+Put it at the very top of the file.
+
+⚠️ **If `~/.codex/AGENTS.override.md` exists, it fully replaces `~/.codex/AGENTS.md`** — your line in
+`AGENTS.md` will never reach the model. Put it at the top of the override instead. Confirm with
+`codex debug prompt-input | grep 'Before writing your final answer'`; anything else is guessing.
+
+**Route 2 — the `SessionStart` hook flag.** Injects the whole rule set rather than a pointer, so the model
+cannot skip the read.
 
 ```bash
 touch ~/.codex/.low-battery-always     # opt in
@@ -191,7 +218,8 @@ rm ~/.codex/.low-battery-always        # opt out
 Honours `$CODEX_HOME` if you moved your Codex directory. The hook reads the skill body, strips its frontmatter,
 and injects it at session start.
 
-**Route 2 — paste the rules into `~/.codex/AGENTS.md`.** Works without the plugin's hooks at all.
+**Route 3 — paste the rules in wholesale.** Works without the plugin's hooks at all, at the cost of going stale
+on every update.
 
 ```bash
 git clone https://github.com/h0x91b/toolbelt-for-agents
