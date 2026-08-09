@@ -116,7 +116,7 @@ Never inflate an answer so it looks "properly formatted". The format is a skelet
 
 ## Naming and wording
 
-### Name your objects — no anonymous nouns
+### Name your objects — no anonymous nouns, no dangling references
 
 Never write "the check", "the feature", "the metric", "that handler" without naming it once. Every object gets a
 name and one sentence saying what it does, at first mention.
@@ -124,6 +124,18 @@ name and one sentence saying what it does, at first mention.
 Bad: `The job runs on about half the records.`
 Good: **`nightly-reconcile`** — a cron job that compares yesterday's invoices against Stripe and flags the ones
 that don't match. It only touches records that changed: about half of them.
+
+**The same applies to anything carried over from an earlier turn.** The reader may be seeing this one message
+and nothing else — they were away, the thread scrolled, someone forwarded it. So every person, agent, number,
+decision and past event gets identified right here: who it is, what it does, when it happened. "He", "as
+agreed", "that question", "the fix from last time", a bare ticket or task number — say what it was, or drop it.
+
+Bad: `He applied the new first question to his own paragraph and found the same mistake there.`
+Good: `The reviewing agent on task seq:403 applied the rule we added an hour ago — "a threshold must say what
+happens" — to its own text and found the same mistake there.`
+
+⚠️ Not the whole history: three lines of restatement is the budget. If re-establishing context costs more than
+that, the answer is covering too much — split it.
 
 ### Terms: meaning in the text, term in parentheses
 
@@ -220,32 +232,7 @@ Skip a subsection entirely if the answer has no numbers, no uncertainty, no opti
 
 <!-- @numbers -->
 
-## Certainty is a first-class column
-
-The most expensive available mistake is confusing "checked, it's fine" with "didn't look".
-They must never look alike.
-
-🟢 we know · 🟡 we don't know · 🔴 we didn't look
-
-⚠️ One exception: in `T3 · Review` these colours are already spent grading severity, so certainty there is
-written in words — `ran it` / `read it only` / `didn't open it`. One colour, one meaning, per answer.
-
-In a diagnosis, or any piece of work with uneven coverage:
-
-| | What | How far it was checked | What that means |
-|---|---|---|---|
-| 🟢 | Login path | ran the tests, clicked through it | **We know it works** |
-| 🟡 | Billing retry | read the code, never ran it | **Looks right, unverified.** Do not present as done |
-| 🔴 | Admin export | didn't open it | **No information.** Silence is not "fine" |
-
-Same table with measurements, where the trap is sharper — "measured and it's zero" versus "the measurement
-cannot see something this small" versus "nobody looked":
-
-| | What | Number | What it actually means |
-|---|---|---|---|
-| 🟢 | Upgrade clicks | −0.7% rel., floor 2.6% | **We know: no effect.** There was enough data for "nothing" to mean nothing |
-| 🟡 | Free → paid | +4.8% rel., floor 10.1% | **We don't know, and won't at this volume.** Not a zero — "not visible" |
-| 🔴 | Cancellations | would need a 13–29% rel. shift | **Never measured.** Do not confuse with "exactly zero" |
+<!-- @certainty -->
 
 ## Caveats have a fixed home
 
@@ -388,34 +375,36 @@ Always:
    (`T9`: exempt — it is supposed to be far longer than what it re-explains.)
 5. Is every fact still present — at least as a table row?
 6. Is every object named, none anonymous?
-7. **Freshman test: walk the text and check every word a first-year CS student — or a student from another
+7. **Read it as someone who saw no earlier message.** Every person, number and past event identified right
+   here? Any "he", "as agreed", "that question", or a bare task number left dangling?
+8. **Freshman test: walk the text and check every word a first-year CS student — or a student from another
    field entirely — would not understand.** Each one gets plain words in the sentence plus the term in
    parentheses; never drop the term. Specialist vocabulary from statistics, finance, or ML theory fails by
    default. Are the identifiers byte-exact?
-8. More than ~5 translated terms? → you are explaining through jargon; rewrite the explanation.
-9. Reading only the headlines — is the whole answer clear? Are the substantive headlines statements?
-10. Any stretch longer than ~12 lines with no heading, table, or list? Any three prose paragraphs in a row?
-11. Is every table well-formed — one row per line, no two rows glued together?
-12. Zero technobabble. Does every sentence read correctly on the first pass?
-13. **Count the lines and the tables of what you just wrote.** Over ~100 lines **and** more than 2 tables →
+9. More than ~5 translated terms? → you are explaining through jargon; rewrite the explanation.
+10. Reading only the headlines — is the whole answer clear? Are the substantive headlines statements?
+11. Any stretch longer than ~12 lines with no heading, table, or list? Any three prose paragraphs in a row?
+12. Is every table well-formed — one row per line, no two rows glued together?
+13. Zero technobabble. Does every sentence read correctly on the first pass?
+14. **Count the lines and the tables of what you just wrote.** Over ~100 lines **and** more than 2 tables →
     build the interactive page now (Part 4). Build it, don't offer it, don't note it for later. This is the
     most-skipped rule here. A `T3 · Review` gets a page regardless of both counts.
-14. Did the template you tagged actually get followed — every required section of it present or deliberately
+15. Did the template you tagged actually get followed — every required section of it present or deliberately
     empty?
 
 If applicable:
 
 <!-- @checklist-reads -->
 
-15. Are percentages marked `rel.` / `pp` / share? Does every relative number have an absolute next to it, or
+16. Are percentages marked `rel.` / `pp` / share? Does every relative number have an absolute next to it, or
     `not in the data`?
-16. Does every percentage say what it is a percentage of?
-17. Is every derived number marked `(derived)`?
-18. Does every number carry its meaning — is it clear whether it is a lot or a little?
-19. **4+ numbers in a section, or 3+ in a paragraph → is it a table yet?**
-20. Is every threshold written as "if → then" rather than as a fraction?
-21. Is "we know" visibly different from "we didn't look"?
-22. Several independent items of the same kind — is the skeleton actually repeated per item, with a roll-up
+17. Does every percentage say what it is a percentage of?
+18. Is every derived number marked `(derived)`?
+19. Does every number carry its meaning — is it clear whether it is a lot or a little?
+20. **4+ numbers in a section, or 3+ in a paragraph → is it a table yet?**
+21. Is every threshold written as "if → then" rather than as a fraction?
+22. Is "we know" visibly different from "we didn't look"?
+23. Several independent items of the same kind — is the skeleton actually repeated per item, with a roll-up
     table at the end and the count in the `Template:` line, instead of falling back to "no template fits"?
-23. `T9` only: is it substantially longer than the answer it re-explains, are the terms re-glossed from scratch
+24. `T9` only: is it substantially longer than the answer it re-explains, are the terms re-glossed from scratch
     (including the ones already glossed last time), and is every new fact marked as new?
