@@ -10,7 +10,8 @@
       "source": {
         "source": "url",
         "url": "https://github.com/h0x91b/toolbelt-for-agents.git",
-        "ref": "main"
+        "ref": "main",
+        "path": "./plugins/low-battery"
       },
       "policy": {
         "installation": "AVAILABLE"
