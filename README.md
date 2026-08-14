@@ -32,7 +32,16 @@ Claude Code is the only harness with output styles. Codex, Cursor, Zed, Copilot 
 as a **skill** — and a skill is loaded on demand, so on its own it does nothing until you name it every time.
 That is almost certainly not what you want, so treat the next step as part of the install rather than an extra.
 
-In Codex, that means two things: copy the skill folder, then add one line.
+In Codex, that means two things: install the plugin, then add one line.
+
+```bash
+codex plugin marketplace add h0x91b/toolbelt-for-agents --ref main
+codex plugin add low-battery@toolbelt-for-agents
+```
+
+Check it actually loaded — from outside a clone of this repo, because a clone loads the skill on its own:
+`cd ~ && codex debug prompt-input | grep low-battery`. Nothing there means your Codex is too old to follow the
+plugin's subdirectory; copy the folder instead:
 
 ```bash
 git clone https://github.com/h0x91b/toolbelt-for-agents
