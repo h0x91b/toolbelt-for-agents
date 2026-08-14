@@ -133,7 +133,22 @@ still turns the rules off for the current session.
 <details>
 <summary><strong>Codex — no output-style concept, so it is the skill plus one of two always-on routes</strong></summary>
 
-### Install — copy the skill folder, do not rely on the marketplace route
+### Install — the marketplace route
+
+```bash
+codex plugin marketplace add h0x91b/toolbelt-for-agents --ref main
+codex plugin add low-battery@toolbelt-for-agents
+```
+
+Start a new session and invoke it with `$low-battery`, or pick it from the `/skills` picker. It shows up as
+`low-battery:low-battery` — plugin name, then skill name.
+
+⚠️ This needs a Codex that honours `source.path` in a marketplace entry. Verified working on
+`codex-cli 0.147.0`; on `0.146.0` the same commands reported `installed, enabled` and exposed **no skill**,
+because Codex then used the repository root as the plugin root, found no `skills/` there, and loaded an empty
+plugin. If the verify step below comes back empty, use the copy route instead.
+
+### Install — copy the skill folder (fallback, and what to use for a user-scope install)
 
 ```bash
 git clone https://github.com/h0x91b/toolbelt-for-agents
@@ -141,34 +156,31 @@ mkdir -p ~/.agents/skills
 cp -R toolbelt-for-agents/plugins/low-battery/skills/low-battery ~/.agents/skills/
 ```
 
-Start a new session and invoke it with `$low-battery`, or pick it from the `/skills` picker.
-
 User-scope skills live in **`~/.agents/skills`**, not `~/.codex/skills`.
-
-🔴 **The marketplace route does not currently work for this repo** — verified on `codex-cli 0.146.0`:
-
-```bash
-codex plugin marketplace add h0x91b/toolbelt-for-agents --ref main
-codex plugin add low-battery@toolbelt-for-agents      # reports success, exposes no skill
-```
-
-`codex plugin list` then says `installed, enabled`, and `codex debug prompt-input` shows the skill is absent.
-Codex treats the **repository root** as the plugin root and ignores the marketplace entry's
-`"source": "./plugins/low-battery"`; it even writes its own synthesised `.codex-plugin/plugin.json` into the
-clone. The root has no `skills/` directory, so there is nothing for it to pick up. Claude Code resolves the
-same field correctly. Use the `cp -R` above until this is fixed.
 
 ### Verify
 
 ```bash
-codex debug prompt-input | grep low-battery
+cd ~ && codex debug prompt-input | grep low-battery
 ```
 
-That is the real audit rather than a guess — the skill should appear in the `### Available skills` list with a
-path under `~/.agents/skills`. `codex plugin list` is not evidence: it reports the plugin as installed either
-way.
+That is the real audit rather than a guess — the skill should appear in the `### Available skills` list, with a
+path either under a plugin cache root (`…/plugins/cache/toolbelt-for-agents/low-battery/<version>/skills/…`) or
+under `~/.agents/skills`. Two things that will fool you:
+
+- `codex plugin list` is not evidence. It reports the plugin as installed whether or not the skill loaded.
+- **Run it from outside a clone of this repo.** Inside the repo, the project-scope `.agents/skills/low-battery/`
+  copy is picked up on its own, so a broken plugin install still looks fine.
 
 ### Update
+
+Marketplace route:
+
+```bash
+codex plugin marketplace upgrade toolbelt-for-agents
+```
+
+Copy route:
 
 ```bash
 cd toolbelt-for-agents && git pull
@@ -179,14 +191,9 @@ cp -R plugins/low-battery/skills/low-battery ~/.agents/skills/
 ### Uninstall
 
 ```bash
-rm -rf ~/.agents/skills/low-battery
-```
-
-If you did try the marketplace route, undo it too:
-
-```bash
 codex plugin remove low-battery
 codex plugin marketplace remove toolbelt-for-agents
+rm -rf ~/.agents/skills/low-battery          # only if you used the copy route
 ```
 
 ### Always-on — do this, or the skill only fires when you name it

@@ -452,6 +452,18 @@ function buildMarketplaces() {
   );
 
   // Codex's native marketplace location.
+  //
+  // `source.path` is what makes the plugin route work at all. Codex clones the whole repository
+  // and, without a path, treats the REPOSITORY ROOT as the plugin root: it looks for `skills/`
+  // there, finds nothing (this repo keeps them under `plugins/<id>/skills/`), synthesises its own
+  // `.codex-plugin/plugin.json` and loads an empty plugin — while `codex plugin list` still reports
+  // `installed, enabled`. With the path, the plugin root is `plugins/<id>/` and the shipped
+  // `.codex-plugin/plugin.json`, `skills/`, `hooks/` are all found. Verified on codex-cli 0.147.0:
+  // the install root goes from `…/low-battery/local` to `…/low-battery/<version>`, and
+  // `codex debug prompt-input` lists `low-battery:low-battery`.
+  //
+  // Audit only with `codex debug prompt-input`, from a directory OUTSIDE this repo — inside it,
+  // the project-scope `.agents/skills/` copy makes a broken plugin install look fine.
   emit(
     ".agents/plugins/marketplace.json",
     JSON.stringify(
@@ -463,7 +475,7 @@ function buildMarketplaces() {
           return {
             name: id,
             description: meta.pluginDescription,
-            source: { source: "url", url: repo.repo.gitUrl, ref: repo.repo.ref },
+            source: { source: "url", url: repo.repo.gitUrl, ref: repo.repo.ref, path: `./plugins/${id}` },
             policy: { installation: "AVAILABLE" },
             category: "Productivity",
           };

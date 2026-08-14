@@ -174,7 +174,8 @@ Do not rediscover these.
 | `$schema` or a top-level `description` in `marketplace.json` | Rejected as unrecognized keys. The description belongs under `metadata.description`, and omitting it is only a warning — easy to ship half-broken |
 | `(?m)` in a JS regex | Throws `Invalid group`. That is Python syntax; use the `m` flag: `/^### /m` |
 | Zed's "Create skill from URL" | Imports a **single file**, so it takes `SKILL.md` and leaves `templates/` behind. Any single-file install route needs the monolithic copy instead |
-| `codex plugin add low-battery@toolbelt-for-agents` | Reports success and `installed, enabled`, but exposes **no skill**. Codex uses the repository root as the plugin root and ignores the marketplace entry's `"source": "./plugins/low-battery"`, then writes its own synthesised `.codex-plugin/plugin.json` into the clone. Root has no `skills/`, so nothing loads. `codex plugin list` is not evidence — audit with `codex debug prompt-input`. Verified on `codex-cli 0.146.0`; the documented Codex route is `cp -R` into `~/.agents/skills/` |
+| Dropping `source.path` from `.agents/plugins/marketplace.json` | Codex clones the repo and, with no `path`, uses the **repository root** as the plugin root. Root has no `skills/`, so it synthesises its own `.codex-plugin/plugin.json` and loads an empty plugin — while `codex plugin add` reports `installed, enabled`. `"source": "./plugins/low-battery"` (the Claude Code field) is a different key and does nothing here. Fixed by `path: "./plugins/<id>"`; verified on `codex-cli 0.147.0` |
+| Auditing a Codex install from inside this repo | `codex debug prompt-input` picks the skill up from the project-scope `.agents/skills/low-battery/`, so a completely broken plugin install looks fine. Audit from a directory outside the repo, with a scratch `$CODEX_HOME`. `codex plugin list` is never evidence |
 
 ## Conventions
 
