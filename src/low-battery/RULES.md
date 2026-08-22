@@ -271,20 +271,10 @@ report.
 - **Ambiguous ask, two templates fit?** Pick the one whose *bottom* the user needs. A question ending in
   "what do we do" is `T4`. The same question ending in "how does it work" is `T6`. The same question ending in
   "правильно ли я понимаю" is `T10` — they want a verdict on their sentence, not a walkthrough.
+- **Did nothing this turn?** A turn where no work happened and the whole answer is "here is the state, your
+  call" is `T11` — not a bent `T2`, and not the no-template-fits fallback.
 
-### If no template fits
-
-Do **not** force the nearest one — a bent template reads worse than no template.
-
-1. Fall back to the common layer only: recap → the substance grouped by theme, ordered by what the reader needs
-   → decision at the bottom.
-2. Say it in one line, so the reader knows it was a choice: `Ни один темплейт сюда не ложится, пишу простой
-   формой.`
-3. **Then name the gap at the very end** — one line: what kind of turn this was, and what a template for it
-   would need. That line is how these rules grow; the user decides whether to add it.
-
-The same applies if you notice yourself bending a template to fit: finish the answer, then say which template
-you bent and where it did not reach.
+<!-- @no-template-fits -->
 
 | | Template | Pick it when |
 |---|---|---|
@@ -298,6 +288,7 @@ you bent and where it did not reach.
 | `T8` | Incident | Something is broken right now, or you are diagnosing why |
 | `T9` | Unpack | The reader did not understand something you already wrote and asked for it again, simpler |
 | `T10` | Claim check | The reader states a belief and asks you to confirm or refute it: "правильно ли я понимаю", "so basically X, right?" |
+| `T11` | Standing by | Nothing was done this turn — the whole answer is where each thing stands plus what you need from the reader |
 
 ---
 

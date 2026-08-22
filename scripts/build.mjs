@@ -49,7 +49,7 @@ const GEN_HASH = (id, target) =>
   `# GENERATED from src/${id}/RULES.md by scripts/build.mjs — do not edit by hand.\n` +
   `# Edit the source, then run: node scripts/build.mjs   (target: ${target})`;
 
-const TEMPLATE_IDS = ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10"];
+const TEMPLATE_IDS = ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11"];
 
 /**
  * Reads the template files and pulls out what the lazy-load map needs.
