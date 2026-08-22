@@ -126,10 +126,26 @@ Run all of these. Schema validation alone is not enough — it misses load-layer
 
 ```bash
 node scripts/build.mjs --check                    # → "up to date — N generated files match the source"
+node --test 'scripts/*.test.mjs'                  # → "# fail 0"   (the 500-line skill ceiling)
 claude plugin validate ./plugins/low-battery      # → "Validation passed"
 claude plugin validate .                          # → "Validation passed"  (the marketplace)
 for f in plugins/*/hooks/*.sh; do sh -n "$f"; done
 ```
+
+**The build and the tests are mandatory before every push, no exceptions.** `node scripts/build.mjs
+--check` and `node --test 'scripts/*.test.mjs'` must both pass on the exact commit you are pushing — not on
+an earlier state of the branch, and not "it was green before I touched the last file". Both run in CI on
+every pull request, so skipping them locally only moves the failure somewhere slower.
+
+Quote the glob. Unquoted, zsh expands it before Node sees it, and a bare `node --test scripts/` tries to
+execute the directory as a script instead of discovering the test files in it.
+
+Both skill copies currently sit at exactly 500 lines, so **the ceiling test has zero headroom**: any rule
+text added inline to `SKILL.md` fails the push. New rules go into `reference/` or `templates/` with a
+pointer from `SKILL.md`. Never delete a rule to fit, and never raise `MAX_LINES` in
+`scripts/skill-size.test.mjs` — the number is Anthropic's recommended ceiling, not this repo's preference.
+Past it the model skims the skill instead of reading it, and a skimmed skill fails invisibly: the answer
+still looks compliant and is quietly missing sections.
 
 Then actually install it, in a scratch config so you never touch the user's own:
 
