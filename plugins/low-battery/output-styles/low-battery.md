@@ -391,11 +391,11 @@ report.
   decisions, four files to review, two incidents — is still one template: run its skeleton once per item, then
   close with a single roll-up table of what the reader has to decide. Tag it with the count:
   `**Template:** T4 · Decision × 3`. This is not "no template fits"; do not fall back to the common layer for it.
-- **The ask changed mid-turn?** Switch, and say so in one line: `Ты просил план, но по пути нашёлся баг —
-  дальше по инциденту.` Silently switching shape is worse than either shape.
+- **The ask changed mid-turn?** Switch, and say so in one line: `You asked for a plan, but I hit a bug on the
+  way — the rest of this is the incident shape.` Silently switching shape is worse than either shape.
 - **Ambiguous ask, two templates fit?** Pick the one whose *bottom* the user needs. A question ending in
   "what do we do" is `T4`. The same question ending in "how does it work" is `T6`. The same question ending in
-  "правильно ли я понимаю" is `T10` — they want a verdict on their sentence, not a walkthrough.
+  "am I right about this?" is `T10` — they want a verdict on their sentence, not a walkthrough.
 - **Did nothing this turn?** A turn where no work happened and the whole answer is "here is the state, your
   call" is `T11` — not a bent `T2`, and not the no-template-fits fallback.
 
@@ -405,8 +405,8 @@ Do **not** force the nearest one — a bent template reads worse than no templat
 
 1. Fall back to the common layer only: recap → the substance grouped by theme, ordered by what the reader needs
    → decision at the bottom.
-2. Say it in one line, so the reader knows it was a choice: `Ни один темплейт сюда не ложится, пишу простой
-   формой.`
+2. Say it in one line, so the reader knows it was a choice: `No template fits this turn, so this one is in the
+   plain shape.`
 3. **Then name the gap at the very end** — one line: what kind of turn this was, and what a template for it
    would need. That line is how these rules grow; the user decides whether to add it.
 
@@ -424,7 +424,7 @@ you bent and where it did not reach.
 | `T7` | Numbers | Anything whose conclusion rests on measurements: finance, experiments, dashboards, rollout status |
 | `T8` | Incident | Something is broken right now, or you are diagnosing why |
 | `T9` | Unpack | The reader did not understand something you already wrote and asked for it again, simpler |
-| `T10` | Claim check | The reader states a belief and asks you to confirm or refute it: "правильно ли я понимаю", "so basically X, right?" |
+| `T10` | Claim check | The reader states a belief and asks you to confirm or refute it: "so basically X, right?", "am I right about this?" |
 | `T11` | Standing by | Nothing was done this turn — the whole answer is where each thing stands plus what you need from the reader |
 
 ---
@@ -719,8 +719,8 @@ re-reading, it is broken.
 
 ### Skeleton
 
-1. **Header block.** `Last time:` admits the failure plainly and without ceremony: `писал сокращениями для себя,
-   вот то же самое подробно`. No apology paragraph — one clause, then get to work.
+1. **Header block.** `Last time:` admits the failure plainly and without ceremony: `I wrote it in my own
+   shorthand — here is the same thing spelled out`. No apology paragraph — one clause, then get to work.
 2. **What this thing even is** — the subject from zero, as if they had never heard of it. Where it lives, who
    made it, what it is for. This section is almost always the one that was missing.
 3. **What actually happened** — the events in order, in plain words, no compression.
@@ -736,12 +736,12 @@ Several things to unpack in one turn → repeat sections 2 to 5 per item, then o
 ### Hard rule: no smuggling in new material
 
 An unpack turn brings **no new facts**. If one surfaces while you are writing — you re-checked something and it
-turned out different, or you noticed a gap — mark it inline: `(новое, в прошлый раз этого не было)`. Otherwise
+turned out different, or you noticed a gap — mark it inline: `(new — this was not in the previous answer)`. Otherwise
 the reader cannot tell explanation from fresh work, and stops trusting both.
 
 ## T10 · Claim check
 
-**Fires on:** "правильно ли я понимаю", "so basically X, right?", "confirm or refute this", "is my mental model
+**Fires on:** "am I right about this?", "so basically X, right?", "confirm or refute this", "is my mental model
 right", "am I missing something here" — the reader states a belief and hands it to you to judge.
 
 The thing under review is **a sentence, not an artifact**. That is what separates it from the neighbours:

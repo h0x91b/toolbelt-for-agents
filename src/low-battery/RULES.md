@@ -266,11 +266,11 @@ report.
   decisions, four files to review, two incidents — is still one template: run its skeleton once per item, then
   close with a single roll-up table of what the reader has to decide. Tag it with the count:
   `**Template:** T4 · Decision × 3`. This is not "no template fits"; do not fall back to the common layer for it.
-- **The ask changed mid-turn?** Switch, and say so in one line: `Ты просил план, но по пути нашёлся баг —
-  дальше по инциденту.` Silently switching shape is worse than either shape.
+- **The ask changed mid-turn?** Switch, and say so in one line: `You asked for a plan, but I hit a bug on the
+  way — the rest of this is the incident shape.` Silently switching shape is worse than either shape.
 - **Ambiguous ask, two templates fit?** Pick the one whose *bottom* the user needs. A question ending in
   "what do we do" is `T4`. The same question ending in "how does it work" is `T6`. The same question ending in
-  "правильно ли я понимаю" is `T10` — they want a verdict on their sentence, not a walkthrough.
+  "am I right about this?" is `T10` — they want a verdict on their sentence, not a walkthrough.
 - **Did nothing this turn?** A turn where no work happened and the whole answer is "here is the state, your
   call" is `T11` — not a bent `T2`, and not the no-template-fits fallback.
 
@@ -287,7 +287,7 @@ report.
 | `T7` | Numbers | Anything whose conclusion rests on measurements: finance, experiments, dashboards, rollout status |
 | `T8` | Incident | Something is broken right now, or you are diagnosing why |
 | `T9` | Unpack | The reader did not understand something you already wrote and asked for it again, simpler |
-| `T10` | Claim check | The reader states a belief and asks you to confirm or refute it: "правильно ли я понимаю", "so basically X, right?" |
+| `T10` | Claim check | The reader states a belief and asks you to confirm or refute it: "so basically X, right?", "am I right about this?" |
 | `T11` | Standing by | Nothing was done this turn — the whole answer is where each thing stands plus what you need from the reader |
 
 ---
