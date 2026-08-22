@@ -103,7 +103,7 @@ one exception, because it is a same-directory link to a file every harness reads
 ```
 src/<new-id>/RULES.md                      must carry the three structural markers
 src/<new-id>/meta.json                     copy low-battery's, change every field
-src/<new-id>/templates/T1.md … T10.md      each starts with "## T<n> · <Name>"
+src/<new-id>/templates/T1.md … T11.md      each starts with "## T<n> · <Name>"
 src/<new-id>/reference/*.md                optional
 src/<new-id>/fragments/templates-lazy.md
 src/<new-id>/fragments/pointer-*.md        one per lazy block
@@ -117,7 +117,7 @@ Add `"<new-id>"` to `plugins` in `src/repo.json`, run the build. It creates `plu
 the plugin to both marketplace files. Then add a row to `README.md` and a `<details>` block to
 `INSTALL.md`.
 
-`build.mjs` expects exactly ten templates named `T1`–`T10`. A different count needs `TEMPLATE_IDS`
+`build.mjs` expects exactly eleven templates named `T1`–`T11`. A different count needs `TEMPLATE_IDS`
 changed, or the `@templates` marker left out and the templates written inline in `RULES.md`.
 
 ## Verify before you claim it works

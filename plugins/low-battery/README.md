@@ -12,7 +12,7 @@ Edit the source, then run `node scripts/build.mjs`.
 | File | Harness |
 |---|---|
 | `skills/low-battery/SKILL.md` | Every skills-aware harness — always-on rules plus a map of the templates |
-| `skills/low-battery/templates/T1.md`…`T10.md` | Read on demand, one per turn |
+| `skills/low-battery/templates/T1.md`…`T11.md` | Read on demand, one per turn |
 | `output-styles/low-battery.md` | Claude Code — the user picks it in `/config` → Output style |
 | `.claude-plugin/plugin.json` | Claude Code manifest |
 | `.codex-plugin/plugin.json` | Codex manifest |

@@ -16,8 +16,8 @@ differently on purpose:
 
 | Container | Shape | Why |
 |---|---|---|
-| The **skill** | A directory: `SKILL.md` + `templates/T1.md` … `T10.md` | A skill can read bundled files on demand, so it carries the always-on rules and pulls in only the one answer template it needs |
-| The **output style** and every **context file** (`plugins/low-battery/AGENTS.md`, `.rules`, `.mdc`, Copilot) | A single self-contained file, all ten templates written out | These are injected wholesale into a system prompt or an always-on context. There is no path to resolve and nothing to fetch |
+| The **skill** | A directory: `SKILL.md` + `templates/T1.md` … `T11.md` | A skill can read bundled files on demand, so it carries the always-on rules and pulls in only the one answer template it needs |
+| The **output style** and every **context file** (`plugins/low-battery/AGENTS.md`, `.rules`, `.mdc`, Copilot) | A single self-contained file, all eleven templates written out | These are injected wholesale into a system prompt or an always-on context. There is no path to resolve and nothing to fetch |
 
 So whenever you place the skill by hand, copy the **whole folder** (`cp -R`), never just `SKILL.md`.
 Every command below already does. Anything that installs a single file — the plugin's `AGENTS.md`, `.rules`, the Cursor
