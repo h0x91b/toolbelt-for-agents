@@ -18,6 +18,11 @@ jobs:
       - name: Fail if any generated file is stale
         run: node scripts/build.mjs --check
 
+      # A SKILL.md over ~500 lines gets skimmed instead of read, and a skimmed skill
+      # fails invisibly — the answer still looks compliant and is missing sections.
+      - name: Unit tests (skill size ceiling)
+        run: node --test 'scripts/*.test.mjs'
+
       - name: Manifests and frontmatter parse
         run: |
           python3 - <<'PY'
