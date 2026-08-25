@@ -101,6 +101,8 @@ The reader came to decide, not to read. End on the decision, the options, or the
 Never end on a recap of what you just said, never on "hope this helps", never on an invented next action.
 If there is genuinely nothing to decide, say so in one line: `Nothing to decide — just logging where we are.`
 
+<!-- @process-log -->
+
 ## Size matches the answer — this is a hard rule
 
 The shape scales down. A three-line answer gets three lines. Bureaucratising a small answer into sections and
@@ -135,7 +137,9 @@ Good: `The reviewing agent on task seq:403 applied the rule we added an hour ago
 happens" — to its own text and found the same mistake there.`
 
 ⚠️ Not the whole history: three lines of restatement is the budget. If re-establishing context costs more than
-that, the answer is covering too much — split it.
+that, the answer is covering too much — split it. And it is the **state** that gets restated, never the
+process: name the thing so the sentence stands on its own, do not narrate who said it, when, or that it was
+later taken back.
 
 ### Terms: meaning in the text, term in parentheses
 
@@ -152,30 +156,7 @@ Identifiers — field names, table names, flags, enum values, functions, paths �
 byte-exact.** `previous_change_verdict`, value `likely_successful`, not "success". Wrong casing breaks a query.
 File references as `src/auth.ts:42` — clickable.
 
-### The freshman test — which words need a gloss
-
-Do not decide by whether *you* find a word familiar; you find everything familiar. Use one external test:
-
-> Would a first-year computer-science student understand this word — or a student from an entirely different
-> field? If no, it needs a gloss.
-
-Everyday engineering vocabulary passes: cache, deploy, branch, rollback, retry, prompt, judge, dataset.
-Words belonging to a **specialist discipline outside general software** fail by default and always need a gloss:
-statistics, econometrics, finance, ML theory. Examples that fail: stratification, heteroskedasticity,
-instrumental variable, Bonferroni correction, minimum detectable effect, calibration curve.
-
-House shorthand also fails — nobody outside the team decodes `goldset`, `flip rate`, `headline metric`,
-`holdout`, `n_runs`.
-
-**Never drop the term to avoid explaining it.** Plain words carry the meaning in the sentence, the term goes in
-parentheses right after — that is how the reader learns the vocabulary instead of being protected from it.
-
-Bad: `The cancelled instruction about stratification — zero occurrences.`
-Bad: `The cancelled instruction to count each subgroup separately — zero occurrences.` (term dropped, nothing learned)
-Good: `The cancelled instruction to count each subgroup separately (stratification) — zero occurrences.`
-
-**Signal, not a quota:** if an answer needs more than ~5 terms glossed, that is not a glossary problem — it means
-you are explaining *through* jargon. Rewrite the explanation, do not add more parentheses.
+<!-- @freshman-test -->
 
 ### Thresholds and criteria are written as "if → then", never as a formula
 
@@ -368,34 +349,37 @@ Always:
 6. Is every object named, none anonymous?
 7. **Read it as someone who saw no earlier message.** Every person, number and past event identified right
    here? Any "he", "as agreed", "that question", or a bare task number left dangling?
-8. **Freshman test: walk the text and check every word a first-year CS student — or a student from another
+8. **No work log.** Any retraction narration, "who said what and who was right", commentary on your own
+   process, praise or blame of another agent, apology or error tally? Cut it — the checking belongs in
+   thinking, the accounting belongs in task notes and in messages to the agent it concerns.
+9. **Freshman test: walk the text and check every word a first-year CS student — or a student from another
    field entirely — would not understand.** Each one gets plain words in the sentence plus the term in
    parentheses; never drop the term. Specialist vocabulary from statistics, finance, or ML theory fails by
    default. Are the identifiers byte-exact?
-9. More than ~5 translated terms? → you are explaining through jargon; rewrite the explanation.
-10. Reading only the headlines — is the whole answer clear? Are the substantive headlines statements?
-11. Any stretch longer than ~12 lines with no heading, table, or list? Any three prose paragraphs in a row?
-12. Is every table well-formed — one row per line, no two rows glued together?
-13. Zero technobabble. Does every sentence read correctly on the first pass?
-14. **Count the lines and the tables of what you just wrote.** Over ~100 lines **and** more than 2 tables →
+10. More than ~5 translated terms? → you are explaining through jargon; rewrite the explanation.
+11. Reading only the headlines — is the whole answer clear? Are the substantive headlines statements?
+12. Any stretch longer than ~12 lines with no heading, table, or list? Any three prose paragraphs in a row?
+13. Is every table well-formed — one row per line, no two rows glued together?
+14. Zero technobabble. Does every sentence read correctly on the first pass?
+15. **Count the lines and the tables of what you just wrote.** Over ~100 lines **and** more than 2 tables →
     build the interactive page now (Part 4). Build it, don't offer it, don't note it for later. This is the
     most-skipped rule here. A `T3 · Review` gets a page regardless of both counts.
-15. Did the template you tagged actually get followed — every required section of it present or deliberately
+16. Did the template you tagged actually get followed — every required section of it present or deliberately
     empty?
 
 If applicable:
 
 <!-- @checklist-reads -->
 
-16. Are percentages marked `rel.` / `pp` / share? Does every relative number have an absolute next to it, or
+17. Are percentages marked `rel.` / `pp` / share? Does every relative number have an absolute next to it, or
     `not in the data`?
-17. Does every percentage say what it is a percentage of?
-18. Is every derived number marked `(derived)`?
-19. Does every number carry its meaning — is it clear whether it is a lot or a little?
-20. **4+ numbers in a section, or 3+ in a paragraph → is it a table yet?**
-21. Is every threshold written as "if → then" rather than as a fraction?
-22. Is "we know" visibly different from "we didn't look"?
-23. Several independent items of the same kind — is the skeleton actually repeated per item, with a roll-up
+18. Does every percentage say what it is a percentage of?
+19. Is every derived number marked `(derived)`?
+20. Does every number carry its meaning — is it clear whether it is a lot or a little?
+21. **4+ numbers in a section, or 3+ in a paragraph → is it a table yet?**
+22. Is every threshold written as "if → then" rather than as a fraction?
+23. Is "we know" visibly different from "we didn't look"?
+24. Several independent items of the same kind — is the skeleton actually repeated per item, with a roll-up
     table at the end and the count in the `Template:` line, instead of falling back to "no template fits"?
-24. `T9` only: is it substantially longer than the answer it re-explains, are the terms re-glossed from scratch
+25. `T9` only: is it substantially longer than the answer it re-explains, are the terms re-glossed from scratch
     (including the ones already glossed last time), and is every new fact marked as new?
