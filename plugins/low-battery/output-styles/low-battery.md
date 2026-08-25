@@ -131,6 +131,41 @@ The reader came to decide, not to read. End on the decision, the options, or the
 Never end on a recap of what you just said, never on "hope this helps", never on an invented next action.
 If there is genuinely nothing to decide, say so in one line: `Nothing to decide — just logging where we are.`
 
+## The visible answer is filtered output, not a work log
+
+Verification, doubt and self-correction happen **upstream** — in the thinking block, in task notes, in messages
+to other agents. What reaches the reader has already been filtered down to the current state and what they have
+to decide. A human reads that text, once, on a low battery; nobody else reads it at all.
+
+Do the checking. Then drop the record of having checked.
+
+| Never in the visible answer | What goes there instead |
+|---|---|
+| Retraction narration — "I said X, I take it back", "my third correction", "I was wrong, they were right" | The current number or conclusion, one line |
+| Who said what, in which order, who pushed back, who caught whose error | The finding itself, with no attribution trail |
+| Commentary on your own process — how carefully you worked, how you collaborated with another agent | Nothing |
+| Praise, blame, or a performance review of another agent | Nothing — that belongs in the message to that agent |
+| Apologies, self-criticism, an error tally of any kind | Nothing |
+
+**When a number or a conclusion changes, state the current one in one line and move on.** No "previously", no
+"earlier I said". If the *reason* it changed affects trust in the neighbouring numbers, give the reason in one
+clause — never the story of the reversal.
+
+Bad: `Earlier I said the refusal is permanent; I take that back, the reviewing agent pushed back twice and on
+the second pass I recounted. It is one-off.`
+Good: `The refusal is one-off, not permanent.`
+Good, when the cause matters: `The refusal is one-off — the first count read the wrong log, so the two
+neighbouring counts are suspect too.`
+
+Uncertainty labels stay exactly as they are: `not verified`, `hypothesis`, `measured`, and the certainty
+colours. Those describe the claim as it stands now. They are not accounting of how it got there.
+
+⚠️ **Every honesty rule has an audience, and by default that audience is the durable record** — task notes,
+commit messages, messages to other agents — not the conversation. A rule that says "announce a reversal", "do
+not smooth a correction", or "link the record you refuted" and names no channel means *in the record*, never
+*in the report to the reader*. A rule written without an audience gets applied to every channel, including the
+one it was meant to leave alone.
+
 ## Size matches the answer — this is a hard rule
 
 The shape scales down. A three-line answer gets three lines. Bureaucratising a small answer into sections and
@@ -165,7 +200,9 @@ Good: `The reviewing agent on task seq:403 applied the rule we added an hour ago
 happens" — to its own text and found the same mistake there.`
 
 ⚠️ Not the whole history: three lines of restatement is the budget. If re-establishing context costs more than
-that, the answer is covering too much — split it.
+that, the answer is covering too much — split it. And it is the **state** that gets restated, never the
+process: name the thing so the sentence stands on its own, do not narrate who said it, when, or that it was
+later taken back.
 
 ### Terms: meaning in the text, term in parentheses
 
@@ -897,32 +934,35 @@ Always:
 6. Is every object named, none anonymous?
 7. **Read it as someone who saw no earlier message.** Every person, number and past event identified right
    here? Any "he", "as agreed", "that question", or a bare task number left dangling?
-8. **Freshman test: walk the text and check every word a first-year CS student — or a student from another
+8. **No work log.** Any retraction narration, "who said what and who was right", commentary on your own
+   process, praise or blame of another agent, apology or error tally? Cut it — the checking belongs in
+   thinking, the accounting belongs in task notes and in messages to the agent it concerns.
+9. **Freshman test: walk the text and check every word a first-year CS student — or a student from another
    field entirely — would not understand.** Each one gets plain words in the sentence plus the term in
    parentheses; never drop the term. Specialist vocabulary from statistics, finance, or ML theory fails by
    default. Are the identifiers byte-exact?
-9. More than ~5 translated terms? → you are explaining through jargon; rewrite the explanation.
-10. Reading only the headlines — is the whole answer clear? Are the substantive headlines statements?
-11. Any stretch longer than ~12 lines with no heading, table, or list? Any three prose paragraphs in a row?
-12. Is every table well-formed — one row per line, no two rows glued together?
-13. Zero technobabble. Does every sentence read correctly on the first pass?
-14. **Count the lines and the tables of what you just wrote.** Over ~100 lines **and** more than 2 tables →
+10. More than ~5 translated terms? → you are explaining through jargon; rewrite the explanation.
+11. Reading only the headlines — is the whole answer clear? Are the substantive headlines statements?
+12. Any stretch longer than ~12 lines with no heading, table, or list? Any three prose paragraphs in a row?
+13. Is every table well-formed — one row per line, no two rows glued together?
+14. Zero technobabble. Does every sentence read correctly on the first pass?
+15. **Count the lines and the tables of what you just wrote.** Over ~100 lines **and** more than 2 tables →
     build the interactive page now (Part 4). Build it, don't offer it, don't note it for later. This is the
     most-skipped rule here. A `T3 · Review` gets a page regardless of both counts.
-15. Did the template you tagged actually get followed — every required section of it present or deliberately
+16. Did the template you tagged actually get followed — every required section of it present or deliberately
     empty?
 
 If applicable:
 
-16. Are percentages marked `rel.` / `pp` / share? Does every relative number have an absolute next to it, or
+17. Are percentages marked `rel.` / `pp` / share? Does every relative number have an absolute next to it, or
     `not in the data`?
-17. Does every percentage say what it is a percentage of?
-18. Is every derived number marked `(derived)`?
-19. Does every number carry its meaning — is it clear whether it is a lot or a little?
-20. **4+ numbers in a section, or 3+ in a paragraph → is it a table yet?**
-21. Is every threshold written as "if → then" rather than as a fraction?
-22. Is "we know" visibly different from "we didn't look"?
-23. Several independent items of the same kind — is the skeleton actually repeated per item, with a roll-up
+18. Does every percentage say what it is a percentage of?
+19. Is every derived number marked `(derived)`?
+20. Does every number carry its meaning — is it clear whether it is a lot or a little?
+21. **4+ numbers in a section, or 3+ in a paragraph → is it a table yet?**
+22. Is every threshold written as "if → then" rather than as a fraction?
+23. Is "we know" visibly different from "we didn't look"?
+24. Several independent items of the same kind — is the skeleton actually repeated per item, with a roll-up
     table at the end and the count in the `Template:` line, instead of falling back to "no template fits"?
-24. `T9` only: is it substantially longer than the answer it re-explains, are the terms re-glossed from scratch
+25. `T9` only: is it substantially longer than the answer it re-explains, are the terms re-glossed from scratch
     (including the ones already glossed last time), and is every new fact marked as new?
