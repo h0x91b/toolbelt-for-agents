@@ -7,10 +7,7 @@ the reverse case: they never see an output style, so this copy is the only one t
 
 **Read this file directly at its own path** — no globbing, no directory listing, no hunting for it.
 
-This copy is a directory, so part of the rule set sits in files next to this one:
-
-| Always here, in full | In `templates/` | In `reference/` |
-|---|---|---|
-| Parts 1 and 3, certainty and caveats, Part 5, the self-validation checklist | the ten answer templates | numbers, nested proportions, how to build the page |
-
-Read one of those the moment the rule pointing at it applies — not before, and never instead.
+This copy is a directory, so part of the rule set sits in files next to this one: the eleven answer templates
+in `templates/`, and numbers, thresholds, certainty, nested proportions, the attribution tag and how to build
+the page in `reference/`. Everything else — Parts 1, 3 and 5 and the self-validation checklist — is here in
+full. Read one of those files the moment the rule pointing at it applies — not before, and never instead.
