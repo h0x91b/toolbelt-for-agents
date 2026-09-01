@@ -39,13 +39,14 @@ it looks for.
 `RULES.md` has no frontmatter — each target needs different frontmatter, so the build adds it. The body
 carries `<!-- @name -->` markers. There are two kinds.
 
-**Structural** — three of them, hardcoded in `build.mjs`, and the build throws if any is missing:
+**Structural** — four of them, hardcoded in `build.mjs`, and the build throws if any is missing:
 
 | Marker | Becomes |
 |---|---|
 | `<!-- @title -->` | the H1, per target |
 | `<!-- @which-copy -->` | `fragments/which-copy.<kind>.md` |
-| `<!-- @templates -->` | **skill:** the read-the-file prose from `fragments/templates-lazy.md`, with `T1` inlined. **Everything else:** all ten template bodies concatenated |
+| `<!-- @attribution-tag -->` | `fragments/attribution-tag.<kind>.md` — the parenthesis that ends the `Template:` line, naming the format and its off switch. Sits **inline inside a fenced example**, so it is trimmed on both ends and its fragment holds one line and no trailing newline. Per copy only to name the container it is sitting in ("output style" vs "answer format") — the off switch is the same in all three, dev-3.0's Settings → Agents toggle, because dev3 is what installs every copy on a real machine and its toggle is the only thing that actually removes them. `/config` switches the Claude Code style back but does not hold: dev3 re-selects it on start |
+| `<!-- @templates -->` | **skill:** the read-the-file prose from `fragments/templates-lazy.md`, with `T1` inlined. **Everything else:** all eleven template bodies concatenated |
 
 The skill gets one more pass on top, `mergePickTable()`: it widens the "How to pick" table with `Sections` and
 `Read` columns instead of repeating all ten template names in a second table underneath — that duplication cost
@@ -140,8 +141,8 @@ every pull request, so skipping them locally only moves the failure somewhere sl
 Quote the glob. Unquoted, zsh expands it before Node sees it, and a bare `node --test scripts/` tries to
 execute the directory as a script instead of discovering the test files in it.
 
-Both skill copies currently sit at exactly 500 lines, so **the ceiling test has zero headroom**: any rule
-text added inline to `SKILL.md` fails the push. New rules go into `reference/` or `templates/` with a
+Both skill copies currently sit at 497 lines, so **the ceiling test has three lines of headroom**: rule
+text added inline to `SKILL.md` fails the push almost immediately. New rules go into `reference/` or `templates/` with a
 pointer from `SKILL.md`. Never delete a rule to fit, and never raise `MAX_LINES` in
 `scripts/skill-size.test.mjs` — the number is Anthropic's recommended ceiling, not this repo's preference.
 Past it the model skims the skill instead of reading it, and a skimmed skill fails invisibly: the answer

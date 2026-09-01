@@ -75,7 +75,7 @@ function readTemplates(id) {
 }
 
 /**
- * Every `<!-- @x -->` marker in RULES.md other than the three structural ones is a LAZY BLOCK,
+ * Every `<!-- @x -->` marker in RULES.md other than the structural ones is a LAZY BLOCK,
  * resolved by convention with no config:
  *
  *   src/<id>/reference/x.md      the content — what a single-file copy gets inlined
@@ -86,7 +86,7 @@ function readTemplates(id) {
  * Anything else missing its reference file is a typo, and typos here silently DELETE rule text from
  * every single-file copy — so it throws.
  */
-const STRUCTURAL_MARKERS = ["title", "which-copy", "templates"];
+const STRUCTURAL_MARKERS = ["title", "which-copy", "templates", "attribution-tag"];
 const SKILL_ONLY_MARKERS = ["checklist-reads"];
 
 function readLazyBlocks(id, rules) {
@@ -118,15 +118,17 @@ function readLazyBlocks(id, rules) {
  * Renders RULES.md for one copy kind.
  * @param {string} rules     raw RULES.md, with all its markers
  * @param {string} title     H1 text
- * @param {string} frag      the which-copy fragment body
+ * @param {function} perCopy (name) => the `fragments/<name>.<kind>.md` body for this kind
  * @param {string} templates the @templates block: full bodies, or the lazy-load map
  * @param {object[]} lazy    the lazy blocks
  * @param {boolean} canRead  true for the skill (a directory) — false for single-file copies
  */
-function renderBody(rules, title, frag, templates, lazy, canRead) {
+function renderBody(rules, title, perCopy, templates, lazy, canRead) {
   let out = rules
     .replace("<!-- @title -->", `# ${title}`)
-    .replace("<!-- @which-copy -->", frag.trimEnd())
+    .replace("<!-- @which-copy -->", perCopy("which-copy").trimEnd())
+    // Inline, inside a fenced example line — so it is trimmed on both ends, not just the right.
+    .replace("<!-- @attribution-tag -->", perCopy("attribution-tag").trim())
     .replace("<!-- @templates -->", templates.trimEnd());
   for (const b of lazy) {
     out = out.replace(`<!-- @${b.name} -->`, canRead ? b.pointer : b.content);
@@ -180,7 +182,8 @@ function mergePickTable(body, tpl) {
 function buildPlugin(id, { ownsRoot }) {
   const meta = readJson(`src/${id}/meta.json`);
   const rules = read(`src/${id}/RULES.md`);
-  const frag = (kind) => read(`src/${id}/fragments/which-copy.${kind}.md`);
+  // The structural markers whose text legitimately differs per copy: `fragments/<name>.<kind>.md`.
+  const perCopy = (kind) => (name) => read(`src/${id}/fragments/${name}.${kind}.md`);
 
   const dir = `plugins/${id}`;
   const tpl = readTemplates(id);
@@ -193,11 +196,11 @@ function buildPlugin(id, { ownsRoot }) {
   const blocks = readLazyBlocks(id, rules);
 
   const skillBody = mergePickTable(
-    renderBody(rules, meta.titles.skill, frag("skill"), lazyTpl, blocks, true),
+    renderBody(rules, meta.titles.skill, perCopy("skill"), lazyTpl, blocks, true),
     tpl
   );
-  const styleBody = renderBody(rules, meta.titles["output-style"], frag("output-style"), inlineTpl, blocks, false);
-  const contextBody = renderBody(rules, meta.titles["context-file"], frag("context-file"), inlineTpl, blocks, false);
+  const styleBody = renderBody(rules, meta.titles["output-style"], perCopy("output-style"), inlineTpl, blocks, false);
+  const contextBody = renderBody(rules, meta.titles["context-file"], perCopy("context-file"), inlineTpl, blocks, false);
 
   // --- the one portable artifact: SKILL.md ---------------------------------
   const skillMd =

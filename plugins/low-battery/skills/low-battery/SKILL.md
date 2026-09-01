@@ -54,13 +54,10 @@ the reverse case: they never see an output style, so this copy is the only one t
 
 **Read this file directly at its own path** — no globbing, no directory listing, no hunting for it.
 
-This copy is a directory, so part of the rule set sits in files next to this one:
-
-| Always here, in full | In `templates/` | In `reference/` |
-|---|---|---|
-| Parts 1 and 3, certainty and caveats, Part 5, the self-validation checklist | the ten answer templates | numbers, nested proportions, how to build the page |
-
-Read one of those the moment the rule pointing at it applies — not before, and never instead.
+This copy is a directory, so part of the rule set sits in files next to this one: the eleven answer templates
+in `templates/`, and numbers, thresholds, certainty, nested proportions, the attribution tag and how to build
+the page in `reference/`. Everything else — Parts 1, 3 and 5 and the self-validation checklist — is here in
+full. Read one of those files the moment the rule pointing at it applies — not before, and never instead.
 
 ### Re-read when you have lost it, not on a schedule
 
@@ -97,7 +94,7 @@ If you catch yourself thinking "this detail is probably not needed" — it is ne
 Every answer opens with this block, and nothing goes above it:
 
 ```
-**Template:** `T6 · Walkthrough` — explaining something that already exists
+**Template:** `T6 · Walkthrough` — explaining something that already exists (Dev3 answer format, switch it off in dev3 Settings → Agents)
 **Task:** what we are doing, one line, with the subject named.
 **Where we stand:** current state.
 **Last time:** what you asked for / where we stopped.
@@ -117,6 +114,11 @@ If no template fits: `**Template:** none — plain shape, nothing fitted`.
 **Mandatory in every template except `T1`.** A micro-answer gets the `Template:` line and then the answer —
 adding four context lines to a one-line reply is its own kind of failure. In a live back-and-forth where the
 previous message was a minute ago, `Task:` may collapse to one line, but the block still appears.
+
+**The tag in parentheses at the end of that line goes into every answer, byte for byte** — `T1` and a live
+outage included. Most readers never installed these rules, so without it the shape reads as the agent
+misbehaving. Never reword it, translate it, explain it or apologise for it: it is a label, not a topic. If
+the reader asks what it is or how to switch the format off → `reference/attribution.md`.
 
 ## Decision at the bottom
 
@@ -202,15 +204,11 @@ parentheses right after.
 Read `reference/freshman-test.md` when you are unsure whether a word passes: it lists the words that fail, the
 bad/good pair for glossing, and the signal that you are explaining through jargon instead of glossing it.
 
-### Thresholds and criteria are written as "if → then", never as a formula
+### Thresholds and criteria → `reference/thresholds.md`
 
-A threshold is a decision rule. A decision rule reads as a sentence, not as a fraction.
-
-Bad: `≥60/40 inside the layer means the axis is independent; ≤85/15 and we close it.`
-Good: `If the new axis gets at least 60 out of 100 right across 40 turns — we keep it. If 85% or more of its
-values collapse into one — we drop it.`
-
-Never leave `X/Y`, `≥N`, `p<0.05`, `n=3` standing on their own. Say what happens.
+A threshold is a decision rule, so it reads as a sentence, never as a fraction: never leave `X/Y`, `≥N`,
+`p<0.05` or `n=3` standing on its own — say what happens when it is met. Read `reference/thresholds.md`,
+which has the bad/good pair, the moment a cut-off, criterion or gate appears in what you are writing.
 
 ### Headline = statement, not topic
 
@@ -451,7 +449,8 @@ options — not because checking them is inconvenient.
 
 Always:
 
-1. Is the header block first, with `Template:` as its first line? (`T1`: `Template:` line only)
+1. Is the header block first, with `Template:` as its first line, and does that line end with the
+   attribution tag, byte for byte? (`T1`: `Template:` line only — the tag is still on it)
 2. Do `Task: / Where we stand: / Last time: / Now:` all have content?
 3. Does it end on a decision or next step, not a recap?
 4. Does the size match the answer — small answer not inflated into a report, large one not truncated?

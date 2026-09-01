@@ -73,7 +73,7 @@ If you catch yourself thinking "this detail is probably not needed" — it is ne
 Every answer opens with this block, and nothing goes above it:
 
 ```
-**Template:** `T6 · Walkthrough` — explaining something that already exists
+**Template:** `T6 · Walkthrough` — explaining something that already exists <!-- @attribution-tag -->
 **Task:** what we are doing, one line, with the subject named.
 **Where we stand:** current state.
 **Last time:** what you asked for / where we stopped.
@@ -93,6 +93,8 @@ If no template fits: `**Template:** none — plain shape, nothing fitted`.
 **Mandatory in every template except `T1`.** A micro-answer gets the `Template:` line and then the answer —
 adding four context lines to a one-line reply is its own kind of failure. In a live back-and-forth where the
 previous message was a minute ago, `Task:` may collapse to one line, but the block still appears.
+
+<!-- @attribution -->
 
 ## Decision at the bottom
 
@@ -158,15 +160,7 @@ File references as `src/auth.ts:42` — clickable.
 
 <!-- @freshman-test -->
 
-### Thresholds and criteria are written as "if → then", never as a formula
-
-A threshold is a decision rule. A decision rule reads as a sentence, not as a fraction.
-
-Bad: `≥60/40 inside the layer means the axis is independent; ≤85/15 and we close it.`
-Good: `If the new axis gets at least 60 out of 100 right across 40 turns — we keep it. If 85% or more of its
-values collapse into one — we drop it.`
-
-Never leave `X/Y`, `≥N`, `p<0.05`, `n=3` standing on their own. Say what happens.
+<!-- @thresholds -->
 
 ### Headline = statement, not topic
 
@@ -340,7 +334,8 @@ options — not because checking them is inconvenient.
 
 Always:
 
-1. Is the header block first, with `Template:` as its first line? (`T1`: `Template:` line only)
+1. Is the header block first, with `Template:` as its first line, and does that line end with the
+   attribution tag, byte for byte? (`T1`: `Template:` line only — the tag is still on it)
 2. Do `Task: / Where we stand: / Last time: / Now:` all have content?
 3. Does it end on a decision or next step, not a recap?
 4. Does the size match the answer — small answer not inflated into a report, large one not truncated?
